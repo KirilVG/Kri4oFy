@@ -12,5 +12,7 @@ namespace Kri4oFy.Interfaces
         
         int Time { get; set; }
 
+        IAlbum Album { get; set; }
+
     }
 }

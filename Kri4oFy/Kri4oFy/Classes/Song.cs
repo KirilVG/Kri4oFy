@@ -12,12 +12,14 @@ namespace Kri4oFy.Classes
         //fields
         private string songName;
         private int time;
+        private IAlbum album;
 
         //constructors
         public Song(string songName)
         {
             this.songName = songName;
             time = 0;
+            album = null;
         }
 
         //properties
@@ -30,6 +32,12 @@ namespace Kri4oFy.Classes
         {
             get { return time; }
             set { time = Math.Abs(value); }
+        }
+
+        public IAlbum Album
+        {
+            get { return album; }
+            set { album = value; }
         }
     }
 }
