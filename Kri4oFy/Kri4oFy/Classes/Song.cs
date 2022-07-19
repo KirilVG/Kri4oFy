@@ -29,7 +29,7 @@ namespace Kri4oFy.Classes
         public int Time
         {
             get { return time; }
-            set { time = value; }
+            set { time = Math.Abs(value); }
         }
     }
 }
