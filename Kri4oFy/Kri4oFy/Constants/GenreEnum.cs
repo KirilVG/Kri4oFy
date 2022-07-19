@@ -8,6 +8,7 @@ namespace Kri4oFy.Constants
 {
     enum GenreEnum
     {
+        none,
         rock,
         metal,
         jazz,

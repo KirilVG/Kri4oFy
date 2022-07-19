@@ -65,7 +65,7 @@ namespace Kri4oFy.Classes
         //methods
         public string GetFileString => throw new NotImplementedException();
 
-        public int ContainsSongWithName(string songName)
+        public int IndexOfSongWithName(string songName)
         {
             int index = -1;
 

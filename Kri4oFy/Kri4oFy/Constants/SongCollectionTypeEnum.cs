@@ -8,6 +8,7 @@ namespace Kri4oFy.Constants
 {
     enum SongCollectionTypeEnum
     {
+        Default,
         PlayList,
         Album,
     }

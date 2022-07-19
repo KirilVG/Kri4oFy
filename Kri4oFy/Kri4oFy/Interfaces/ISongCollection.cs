@@ -19,7 +19,7 @@ namespace Kri4oFy.Interfaces
 
         string GetFileString { get; }
 
-        int ContainsSongWithName(string songName);
+        int IndexOfSongWithName(string songName);
 
     }
 }
