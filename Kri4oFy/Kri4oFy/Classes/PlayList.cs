@@ -8,18 +8,18 @@ using System.Threading.Tasks;
 
 namespace Kri4oFy.Classes
 {
-    internal class PlayList:SongCollection ,IPlayList
+    internal class PlayList : SongCollection, IPlayList
     {
         //constructors
         public PlayList(string PlayListName)
-            : base(PlayListName,SongCollectionTypeEnum.PlayList)
+            : base(PlayListName, SongCollectionTypeEnum.PlayList)
         {
 
         }
 
         new public string GetFileString
         {
-            get { return $"//<playlists><{base.CollectionName}>(songs: [{string.Join(", ",base.Songs.Select(x=>x.SongName).ToArray())}])</playlists>"; }
+            get { return $"//<playlists><{base.CollectionName}>(songs: [{string.Join(", ", base.Songs.Select(x => $"'{x.SongName}'").ToArray())}])</playlists>"; }
         }
 
 

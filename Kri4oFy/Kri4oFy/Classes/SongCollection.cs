@@ -62,6 +62,7 @@ namespace Kri4oFy.Classes
             get { return songs; }
         }
 
+        //methods
         public string GetFileString => throw new NotImplementedException();
 
         public int ContainsSongWithName(string songName)
