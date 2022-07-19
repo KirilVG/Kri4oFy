@@ -15,6 +15,10 @@ namespace Kri4oFy.Interfaces
 
         UserTypeEnum Type { get; set; }
 
+        string GetFileString { get; }
+
         bool CheckLogInInfo(string userame, string password);
+
+        
     }
 }

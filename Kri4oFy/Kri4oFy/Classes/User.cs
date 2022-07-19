@@ -42,6 +42,11 @@ namespace Kri4oFy.Classes
             set { type = value; }
         }
 
+        public string GetFileString
+        {
+            get { return $"<user><{Username}>({Password}){{{Type}}}"; }
+        }
+
         //methods
         public bool CheckLogInInfo(string userame, string password)
         {
