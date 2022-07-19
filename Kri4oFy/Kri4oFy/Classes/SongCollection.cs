@@ -15,6 +15,20 @@ namespace Kri4oFy.Classes
         private SongCollectionTypeEnum type;
         private List<ISong> songs;
 
+        //constructors
+        public SongCollection(string collectionName)
+        {
+            this.CollectionName = collectionName;
+            songs= new List<ISong>();
+            type = SongCollectionTypeEnum.Default;
+        }
+
+        public SongCollection(string collectionName,SongCollectionTypeEnum type)
+        {
+            this.CollectionName = collectionName;
+            songs = new List<ISong>();
+            this.Type = type;
+        }
 
         //properties
         public string CollectionName
@@ -30,11 +44,11 @@ namespace Kri4oFy.Classes
 
         public int Length
         {
-            get 
+            get
             {
                 int counter = 0;
 
-                foreach (Song song in songs)
+                foreach (ISong song in songs)
                 {
                     counter += song.Time;
                 }
@@ -49,5 +63,21 @@ namespace Kri4oFy.Classes
         }
 
         public string GetFileString => throw new NotImplementedException();
+
+        public int ContainsSongWithName(string songName)
+        {
+            int index = -1;
+
+            for (int i = 0; i < songs.Count; i++)
+            {
+                if (songs[i].SongName == songName)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            return index;
+        }
     }
 }

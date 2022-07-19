@@ -18,5 +18,7 @@ namespace Kri4oFy.Interfaces
         List<ISong> Songs { get; }
 
         string GetFileString { get; }
+
+        int ContainsSongWithName(string songName);
     }
 }
