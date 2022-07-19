@@ -43,8 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\Song.cs" />
+    <Compile Include="Classes\User.cs" />
     <Compile Include="Constants\GenreEnum.cs" />
+    <Compile Include="Constants\SongCollectionTypeEnum.cs" />
     <Compile Include="Constants\UserTypeEnum.cs" />
+    <Compile Include="Interfaces\ISong.cs" />
+    <Compile Include="Interfaces\ISongCollection.cs" />
+    <Compile Include="Interfaces\IUser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -52,8 +58,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Classes\" />
-    <Folder Include="Interfaces\" />
     <Folder Include="Utils\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

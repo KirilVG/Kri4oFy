@@ -1,0 +1,8 @@
+C:\Users\kiril.gradinarov.GRAFIXOFT\Desktop\SecondAtempt\Kri4oFy\Kri4oFy\bin\Debug\Kri4oFy.exe.config
+C:\Users\kiril.gradinarov.GRAFIXOFT\Desktop\SecondAtempt\Kri4oFy\Kri4oFy\bin\Debug\Kri4oFy.exe
+C:\Users\kiril.gradinarov.GRAFIXOFT\Desktop\SecondAtempt\Kri4oFy\Kri4oFy\bin\Debug\Kri4oFy.pdb
+C:\Users\kiril.gradinarov.GRAFIXOFT\Desktop\SecondAtempt\Kri4oFy\Kri4oFy\obj\Debug\Kri4oFy.csproj.AssemblyReference.cache
+C:\Users\kiril.gradinarov.GRAFIXOFT\Desktop\SecondAtempt\Kri4oFy\Kri4oFy\obj\Debug\Kri4oFy.csproj.SuggestedBindingRedirects.cache
+C:\Users\kiril.gradinarov.GRAFIXOFT\Desktop\SecondAtempt\Kri4oFy\Kri4oFy\obj\Debug\Kri4oFy.csproj.CoreCompileInputs.cache
+C:\Users\kiril.gradinarov.GRAFIXOFT\Desktop\SecondAtempt\Kri4oFy\Kri4oFy\obj\Debug\Kri4oFy.exe
+C:\Users\kiril.gradinarov.GRAFIXOFT\Desktop\SecondAtempt\Kri4oFy\Kri4oFy\obj\Debug\Kri4oFy.pdb
