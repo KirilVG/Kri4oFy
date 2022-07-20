@@ -1046,7 +1046,7 @@
 											"top": 482,
 											"width": 407.14501953125,
 											"height": 13,
-											"text": "+void PrintAlbums()",
+											"text": "+string PrintAlbums()",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1063,7 +1063,7 @@
 											"top": 497,
 											"width": 407.14501953125,
 											"height": 13,
-											"text": "+void PrintAlbumContent(string albumName)",
+											"text": "+string PrintAlbumContent(string albumName)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1080,7 +1080,7 @@
 											"top": 512,
 											"width": 407.14501953125,
 											"height": 13,
-											"text": "+void AddAlbum(IAlbum album)",
+											"text": "+bool AddAlbum(IAlbum album)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -1114,7 +1114,7 @@
 											"top": 542,
 											"width": 407.14501953125,
 											"height": 13,
-											"text": "+void AddSongToAlbum(string albumName, ISong song)",
+											"text": "+bool AddSongToAlbum(string albumName, ISong song)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -2645,7 +2645,8 @@
 											"_parent": {
 												"$ref": "AAAAAAGCFtCawPx5UkA="
 											},
-											"name": "string PlayListName"
+											"name": "string PlayListName",
+											"type": ""
 										},
 										{
 											"_type": "UMLParameter",
@@ -2856,7 +2857,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGCFsKAFfu136g="
 									},
-									"name": "void PrintAlbums"
+									"name": "string PrintAlbums"
 								},
 								{
 									"_type": "UMLOperation",
@@ -2864,7 +2865,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGCFsKAFfu136g="
 									},
-									"name": "void PrintAlbumContent",
+									"name": "string PrintAlbumContent",
 									"parameters": [
 										{
 											"_type": "UMLParameter",
@@ -2872,8 +2873,7 @@
 											"_parent": {
 												"$ref": "AAAAAAGCFsbAvPwVd9g="
 											},
-											"name": "string albumName",
-											"type": ""
+											"name": "string albumName"
 										}
 									]
 								},
@@ -2883,7 +2883,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGCFsKAFfu136g="
 									},
-									"name": "void AddAlbum",
+									"name": "bool AddAlbum",
 									"parameters": [
 										{
 											"_type": "UMLParameter",
@@ -2891,8 +2891,7 @@
 											"_parent": {
 												"$ref": "AAAAAAGCFse42vweb8k="
 											},
-											"name": "IAlbum album",
-											"type": ""
+											"name": "IAlbum album"
 										}
 									]
 								},
@@ -2910,7 +2909,8 @@
 											"_parent": {
 												"$ref": "AAAAAAGCFsgYsvwn09w="
 											},
-											"name": "string albumName"
+											"name": "string albumName",
+											"type": ""
 										}
 									]
 								},
@@ -2920,7 +2920,7 @@
 									"_parent": {
 										"$ref": "AAAAAAGCFsKAFfu136g="
 									},
-									"name": "void AddSongToAlbum",
+									"name": "bool AddSongToAlbum",
 									"parameters": [
 										{
 											"_type": "UMLParameter",
@@ -2928,8 +2928,7 @@
 											"_parent": {
 												"$ref": "AAAAAAGCFsmyL/wwbaI="
 											},
-											"name": "string albumName",
-											"type": ""
+											"name": "string albumName"
 										},
 										{
 											"_type": "UMLParameter",
@@ -2937,8 +2936,7 @@
 											"_parent": {
 												"$ref": "AAAAAAGCFsmyL/wwbaI="
 											},
-											"name": "ISong song",
-											"type": ""
+											"name": "ISong song"
 										}
 									]
 								},

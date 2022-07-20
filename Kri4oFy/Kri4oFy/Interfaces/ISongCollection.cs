@@ -21,5 +21,13 @@ namespace Kri4oFy.Interfaces
 
         int IndexOfSongWithName(string songName);
 
+        string GetInfo { get; }
+
+        string GetSongsInfo { get; }
+
+        ISong RemoveSongByName(string songName);
+
+        bool AddSong(ISong song);
+
     }
 }

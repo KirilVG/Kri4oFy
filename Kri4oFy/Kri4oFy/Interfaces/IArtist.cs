@@ -17,15 +17,15 @@ namespace Kri4oFy.Interfaces
 
         List<IAlbum> Albums { get; }
 
-        void PrintAlbums();
+        string PrintAlbums();
 
-        void PrintAlbumContent(string albumName);
+        string PrintAlbumContent(string albumName);
 
-        void AddAlbum(IAlbum album);
+        bool AddAlbum(IAlbum album);
 
         IAlbum RemoveAlbum(string albumName);
 
-        void AddSongToAlbum(string albumName,ISong song);
+        bool AddSongToAlbum(string albumName,ISong song);
 
         ISong RemoveSongFromAlbum(string albumName,string songName);
     }

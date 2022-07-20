@@ -65,6 +65,36 @@ namespace Kri4oFy.Classes
         //methods
         public string GetFileString => throw new NotImplementedException();
 
+        public string GetInfo
+        {
+            get
+            {
+                return $"<{type}> - {collectionName} length:{Length}";
+            }
+        }
+
+        public string GetSongsInfo
+        {
+            get
+            {
+                return String.Join("\n",Songs.Select(x=>$"<song> {x.SongName} [{x.Time/60}:{x.Time%60:D2}]"));
+            }
+        }
+
+        public bool AddSong(ISong song)
+        {
+            if(songs.Contains(song))
+            {
+                throw new ArgumentException("The song already exists ion this collection");
+                return false;
+            }
+            else
+            {
+                songs.Add(song);
+                return true;
+            }
+        }
+
         public int IndexOfSongWithName(string songName)
         {
             int index = -1;
@@ -79,6 +109,30 @@ namespace Kri4oFy.Classes
             }
 
             return index;
+        }
+
+        public ISong RemoveSongByName(string songName)
+        {
+            ISong song = null;
+
+            foreach(ISong songElement in Songs)
+            {
+                if(songElement.SongName == songName)
+                {
+                    song = songElement;
+                    break;
+                }
+            }
+
+            if(song==null)
+            {
+                throw new ArgumentException("The song does not Exist in the current collection");
+            }
+            else
+            {
+                songs.Remove(song);
+                return song;
+            }
         }
     }
 }

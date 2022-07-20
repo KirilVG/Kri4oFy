@@ -64,42 +64,123 @@ namespace Kri4oFy.Classes
         {
             return string.Join(", ", Albums.Select(x => $"'{x.CollectionName}'").ToArray());
         }
+
         private string GetDateInFormat()
         {
             return dateOfBirth.ToString("dd/mm/yyyy");
         }
+
         private string GetGenresAsString()
         {
             return String.Join(", ", Genres.Select(x => $"'{x}'"));
         }
-        public void AddAlbum(IAlbum album)
+
+        public bool AddAlbum(IAlbum album)
         {
-            throw new NotImplementedException();
+            if(albums.Contains(album))
+            {
+                throw new ArgumentException("Album is already a part of this artists managery");
+                return false;
+            }
+            else
+            {
+                albums.Add(album);
+                return true;
+            }
         }
 
-        public void AddSongToAlbum(string albumName, ISong song)
+        public bool AddSongToAlbum(string albumName, ISong song)
         {
-            throw new NotImplementedException();
+            IAlbum album = null;
+            foreach(IAlbum albumItem in albums)
+            {
+                if(albumItem.CollectionName==albumName)
+                {
+                    album = albumItem;
+                }
+            }
+            
+            if(album==null)
+            {
+                throw new ArgumentException("Incorrect album name");
+                return false;
+            }
+            else
+            {
+                album.AddSong(song);
+                return true;
+            }
         }
 
-        public void PrintAlbumContent(string albumName)
+        public string PrintAlbumContent(string albumName)
         {
-            throw new NotImplementedException();
+            IAlbum album = null;
+            foreach(IAlbum albumItem in albums)
+            {
+                if(albumItem.CollectionName == albumName)
+                {
+                    album = albumItem;
+                }
+            }
+
+            if(album==null)
+            {
+                throw new ArgumentException("The album does not belong to this artist");
+                return "";
+            }
+            else
+            {
+                return album.GetSongsInfo;
+            }
         }
 
-        public void PrintAlbums()
+        public string PrintAlbums()
         {
-            throw new NotImplementedException();
+            return String.Join("\n", Albums.Select(x => x.CollectionName));
         }
 
         public IAlbum RemoveAlbum(string albumName)
         {
-            throw new NotImplementedException();
+            IAlbum album = null;
+            foreach (IAlbum albumItem in albums)
+            {
+                if (albumItem.CollectionName == albumName)
+                {
+                    album = albumItem;
+                }
+            }
+
+            if (album == null)
+            {
+                throw new ArgumentException("The album does not belong to this artist");
+                return null;
+            }
+            else
+            {
+                this.Albums.Remove(album);
+                return album;
+            }
         }
 
         public ISong RemoveSongFromAlbum(string albumName, string songName)
         {
-            throw new NotImplementedException();
+            IAlbum album = null;
+            foreach (IAlbum albumItem in albums)
+            {
+                if (albumItem.CollectionName == albumName)
+                {
+                    album = albumItem;
+                }
+            }
+            if (album == null)
+            {
+                throw new ArgumentException("The album does not belong to this artist");
+                return null;
+            }
+            else
+            {
+                return album.RemoveSongByName(songName);
+            }
         }
     }
 }
