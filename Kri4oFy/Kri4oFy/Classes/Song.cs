@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Kri4oFy.Classes
 {
-    internal class Song : ISong
+    public class Song : ISong
     {
         //fields
         private string songName;
@@ -15,11 +15,11 @@ namespace Kri4oFy.Classes
         private IAlbum album;
 
         //constructors
-        public Song(string songName)
+        public Song(string songName,int time=0, IAlbum album=null)
         {
-            this.songName = songName;
-            time = 0;
-            album = null;
+            this.SongName = songName;
+            this.Time = time;
+            this.Album = album;
         }
 
         //properties
@@ -38,6 +38,17 @@ namespace Kri4oFy.Classes
         {
             get { return album; }
             set { album = value; }
+        }
+
+        public string GetFileString
+        {
+            get
+            {
+                return $"<song>" +
+                    $"<{SongName}>" +
+                    $"[6:28]" +
+                    $"</song>";
+            }
         }
     }
 }

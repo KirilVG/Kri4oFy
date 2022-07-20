@@ -13,3 +13,6 @@ C:\Users\kiril.gradinarov.GRAFIXOFT\Desktop\SecondAtempt\Kri4oFy\ArtistUnitTests
 C:\Users\kiril.gradinarov.GRAFIXOFT\Desktop\SecondAtempt\Kri4oFy\ArtistUnitTests\obj\Debug\ArtistUnitTests.csproj.CopyComplete
 C:\Users\kiril.gradinarov.GRAFIXOFT\Desktop\SecondAtempt\Kri4oFy\ArtistUnitTests\obj\Debug\ArtistUnitTests.dll
 C:\Users\kiril.gradinarov.GRAFIXOFT\Desktop\SecondAtempt\Kri4oFy\ArtistUnitTests\obj\Debug\ArtistUnitTests.pdb
+C:\Users\kiril.gradinarov.GRAFIXOFT\Desktop\SecondAtempt\Kri4oFy\ArtistUnitTests\bin\Debug\Kri4oFy.exe
+C:\Users\kiril.gradinarov.GRAFIXOFT\Desktop\SecondAtempt\Kri4oFy\ArtistUnitTests\bin\Debug\Kri4oFy.pdb
+C:\Users\kiril.gradinarov.GRAFIXOFT\Desktop\SecondAtempt\Kri4oFy\ArtistUnitTests\bin\Debug\Kri4oFy.exe.config

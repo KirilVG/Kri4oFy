@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kri4oFy.Constants
 {
-    enum SongCollectionTypeEnum
+    public enum SongCollectionTypeEnum
     {
         Default,
         PlayList,

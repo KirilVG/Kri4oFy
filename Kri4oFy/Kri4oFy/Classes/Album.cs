@@ -8,7 +8,7 @@ using Kri4oFy.Interfaces;
 
 namespace Kri4oFy.Classes
 {
-    internal class Album : SongCollection, IAlbum
+    public class Album : SongCollection, IAlbum
     {
         //fields
         private string artistName;

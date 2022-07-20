@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kri4oFy.Constants
 {
-    enum GenreEnum
+    public enum GenreEnum
     {
         none,
         rock,

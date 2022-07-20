@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Kri4oFy.Classes
 {
-    internal class SongCollection : ISongCollection
+    public class SongCollection : ISongCollection
     {
         //fields
         private string collectionName;

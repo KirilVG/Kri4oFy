@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kri4oFy.Interfaces
 {
-    internal interface ISong
+    public interface ISong
     {
         string SongName { get; set; }
         
@@ -14,5 +14,6 @@ namespace Kri4oFy.Interfaces
 
         IAlbum Album { get; set; }
 
+        string GetFileString { get; }
     }
 }

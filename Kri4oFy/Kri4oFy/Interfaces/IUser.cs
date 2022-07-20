@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Kri4oFy.Interfaces
 {
-    internal interface IUser
+    public interface IUser
     {
         string Username { get; set; }
 

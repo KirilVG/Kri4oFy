@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Kri4oFy.Constants
 {
-    enum UserTypeEnum
+    public enum UserTypeEnum
     {
         Listener,
         Artist

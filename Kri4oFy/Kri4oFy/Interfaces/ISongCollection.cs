@@ -7,7 +7,7 @@ using Kri4oFy.Constants;
 
 namespace Kri4oFy.Interfaces
 {
-    internal interface ISongCollection
+    public interface ISongCollection
     {
         string CollectionName { get; set; }
 

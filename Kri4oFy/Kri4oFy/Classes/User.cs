@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Kri4oFy.Classes
 {
-    internal class User : IUser
+    public class User : IUser
     {
         //fields
         private string username;
