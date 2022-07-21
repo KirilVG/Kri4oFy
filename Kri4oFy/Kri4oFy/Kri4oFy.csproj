@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="Classes\Album.cs" />
     <Compile Include="Classes\Artist.cs" />
+    <Compile Include="Classes\Listener.cs" />
     <Compile Include="Classes\PlayList.cs" />
     <Compile Include="Classes\Song.cs" />
     <Compile Include="Classes\SongCollection.cs" />
@@ -54,6 +55,7 @@
     <Compile Include="Constants\UserTypeEnum.cs" />
     <Compile Include="Interfaces\IAlbum.cs" />
     <Compile Include="Interfaces\IArtist.cs" />
+    <Compile Include="Interfaces\IListener.cs" />
     <Compile Include="Interfaces\IPlayList.cs" />
     <Compile Include="Interfaces\ISong.cs" />
     <Compile Include="Interfaces\ISongCollection.cs" />

@@ -90,8 +90,7 @@ namespace Kri4oFy.Classes
             if(songs.Contains(song))
             {
                 throw new ArgumentException("The song already exists ion this collection");
-
-                return false;
+                //return false;
             }
             else
             {

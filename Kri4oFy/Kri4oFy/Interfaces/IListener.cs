@@ -24,11 +24,11 @@ namespace Kri4oFy.Interfaces
 
         string PrintFavouriteSongs();
 
-        string PrintSongsFromPlayList(string PlayListName);
+        string PrintSongsFromPlayList(string playListName);
 
         bool AddPlayList(IPlayList playList);
 
-        IPlayList RemovePlayLisr(IPlayList playList);
+        IPlayList RemovePlayList(string playListName);
 
         bool AddSongToFavourites(ISong song);
 
@@ -36,6 +36,6 @@ namespace Kri4oFy.Interfaces
 
         bool AddSongToPlayList(string playListName, ISong song);
 
-        bool RemoveSongFromPlayList(string playlistName, ISong song);
+        bool RemoveSongFromPlayList(string playlistName, string songName);
     }
 }
