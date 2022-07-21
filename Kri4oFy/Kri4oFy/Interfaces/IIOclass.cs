@@ -6,7 +6,14 @@ using System.Threading.Tasks;
 
 namespace Kri4oFy.Interfaces
 {
-    internal interface IOclass
+    internal interface IIOclass
     {
+        void Write(string output);
+
+        void WriteLine(string output);
+
+        string Read();
+
+        string ReadLine();
     }
 }
