@@ -100,7 +100,7 @@ namespace Kri4oFy.Classes
                 }
             }
 
-            if(album == null)
+            if (album == null)
             {
                 throw new ArgumentException("Album is not a part of this artist's menagerie");
                 //return null;
@@ -134,7 +134,7 @@ namespace Kri4oFy.Classes
 
         public bool AddSongToAlbum(string albumName, ISong song)
         {
-            if (song == null || albumName==null)
+            if (song == null || albumName == null)
             {
                 throw new ArgumentException("Arguments Should not be null");
                 //return false;
@@ -157,7 +157,7 @@ namespace Kri4oFy.Classes
 
         public string PrintAlbumContent(string albumName)
         {
-            if(albumName == null)
+            if (albumName == null)
             {
                 throw new ArgumentException("Album name should not be null");
                 //return "";
