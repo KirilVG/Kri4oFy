@@ -9,7 +9,7 @@ namespace Kri4oFy.Interfaces
 {
     public interface IAlbum:ISongCollection
     {
-        string ArtistName { get; set; }
+        IArtist Artist { get; set; }
 
         DateTime DateOfCreation { get; set; }
 

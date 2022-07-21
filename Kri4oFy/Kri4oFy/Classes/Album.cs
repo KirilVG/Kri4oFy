@@ -11,29 +11,24 @@ namespace Kri4oFy.Classes
     public class Album : SongCollection, IAlbum
     {
         //fields
-        private string artistName;
+        private IArtist artist;
 
         private DateTime dateOfCreation;
 
         private GenreEnum genre;
 
-        /// <summary>
-        /// constructor
-        /// </summary>
-        /// <param name="AlbumName">name of the album</param>
-        /// <param name="ArtistName">name of the artist behind the album</param>
-        public Album(string AlbumName,string ArtistName) : base(AlbumName, SongCollectionTypeEnum.Album)
+        public Album(string AlbumName,IArtist artist=null) : base(AlbumName, SongCollectionTypeEnum.Album)
         {
-            this.ArtistName = ArtistName;
+            this.Artist= artist;
             this.Genre = GenreEnum.none;
             this.DateOfCreation = DateTime.Today;
         }
 
         //properties
-        public string ArtistName
+        public IArtist Artist
         {
-            get { return artistName; }
-            set { artistName = value; }
+            get { return artist; }
+            set { artist = value; }
         }
 
         public DateTime DateOfCreation

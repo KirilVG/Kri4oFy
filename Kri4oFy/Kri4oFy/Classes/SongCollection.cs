@@ -19,14 +19,18 @@ namespace Kri4oFy.Classes
         public SongCollection(string collectionName)
         {
             this.CollectionName = collectionName;
+
             songs= new List<ISong>();
+
             type = SongCollectionTypeEnum.Default;
         }
 
         public SongCollection(string collectionName,SongCollectionTypeEnum type)
         {
             this.CollectionName = collectionName;
+
             songs = new List<ISong>();
+
             this.Type = type;
         }
 
@@ -86,11 +90,13 @@ namespace Kri4oFy.Classes
             if(songs.Contains(song))
             {
                 throw new ArgumentException("The song already exists ion this collection");
+
                 return false;
             }
             else
             {
                 songs.Add(song);
+
                 return true;
             }
         }
@@ -104,6 +110,7 @@ namespace Kri4oFy.Classes
                 if (songs[i].SongName == songName)
                 {
                     index = i;
+
                     break;
                 }
             }
@@ -120,6 +127,7 @@ namespace Kri4oFy.Classes
                 if(songElement.SongName == songName)
                 {
                     song = songElement;
+
                     break;
                 }
             }
@@ -131,6 +139,7 @@ namespace Kri4oFy.Classes
             else
             {
                 songs.Remove(song);
+
                 return song;
             }
         }

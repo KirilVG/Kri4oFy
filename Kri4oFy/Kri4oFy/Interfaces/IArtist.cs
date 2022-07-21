@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Kri4oFy.Interfaces
 {
-    internal interface IArtist:IUser
+    public interface IArtist:IUser
     {
         string FullName { get; set; }
 

@@ -12,10 +12,15 @@ namespace Kri4oFy.Classes
     {
         //fields
         string fullName;
+
         DateTime dateOfBirth;
+
         List<GenreEnum> genres;
+
         List<IAlbum> albums;
-        public Artist(User user,string fullName="") : base(user.Username, user.Password, user.Type)
+
+        //constructor
+        public Artist(User user, string fullName = "") : base(user.Username, user.Password, user.Type)
         {
             this.fullName = fullName; ;
             this.DateOfBirth = DateTime.Today;
@@ -29,6 +34,7 @@ namespace Kri4oFy.Classes
             get { return fullName; }
             set { fullName = value; }
         }
+
         public DateTime DateOfBirth
         {
             get { return dateOfBirth; }
@@ -45,17 +51,17 @@ namespace Kri4oFy.Classes
             get { return albums; }
         }
 
-        public string GetFileString
+        new public string GetFileString
         {
-            get 
-            { 
+            get
+            {
                 return $"<artist>" +
                     $"<{Username}>" +
                     $"<{FullName}>" +
                     $"[{GetDateInFormat()}]" +
                     $"(genres: [{GetGenresAsString()}])" +
                     $"(albums: [{GetAlbumNamesAsString()}])" +
-                    $"</artist>"; 
+                    $"</artist>";
             }
         }
 
@@ -77,14 +83,18 @@ namespace Kri4oFy.Classes
 
         public bool AddAlbum(IAlbum album)
         {
-            if(albums.Contains(album))
+            if (albums.Contains(album))
             {
                 throw new ArgumentException("Album is already a part of this artists managery");
+
                 return false;
             }
             else
             {
                 albums.Add(album);
+
+                album.Artist = this;
+
                 return true;
             }
         }
@@ -92,22 +102,25 @@ namespace Kri4oFy.Classes
         public bool AddSongToAlbum(string albumName, ISong song)
         {
             IAlbum album = null;
-            foreach(IAlbum albumItem in albums)
+
+            foreach (IAlbum albumItem in albums)
             {
-                if(albumItem.CollectionName==albumName)
+                if (albumItem.CollectionName == albumName)
                 {
                     album = albumItem;
                 }
             }
-            
-            if(album==null)
+
+            if (album == null)
             {
                 throw new ArgumentException("Incorrect album name");
+
                 return false;
             }
             else
             {
                 album.AddSong(song);
+                song.Album = album;
                 return true;
             }
         }
@@ -115,17 +128,19 @@ namespace Kri4oFy.Classes
         public string PrintAlbumContent(string albumName)
         {
             IAlbum album = null;
-            foreach(IAlbum albumItem in albums)
+
+            foreach (IAlbum albumItem in albums)
             {
-                if(albumItem.CollectionName == albumName)
+                if (albumItem.CollectionName == albumName)
                 {
                     album = albumItem;
                 }
             }
 
-            if(album==null)
+            if (album == null)
             {
                 throw new ArgumentException("The album does not belong to this artist");
+
                 return "";
             }
             else
@@ -142,6 +157,7 @@ namespace Kri4oFy.Classes
         public IAlbum RemoveAlbum(string albumName)
         {
             IAlbum album = null;
+
             foreach (IAlbum albumItem in albums)
             {
                 if (albumItem.CollectionName == albumName)
@@ -153,11 +169,13 @@ namespace Kri4oFy.Classes
             if (album == null)
             {
                 throw new ArgumentException("The album does not belong to this artist");
+
                 return null;
             }
             else
             {
                 this.Albums.Remove(album);
+
                 return album;
             }
         }
@@ -165,6 +183,7 @@ namespace Kri4oFy.Classes
         public ISong RemoveSongFromAlbum(string albumName, string songName)
         {
             IAlbum album = null;
+
             foreach (IAlbum albumItem in albums)
             {
                 if (albumItem.CollectionName == albumName)
@@ -172,9 +191,11 @@ namespace Kri4oFy.Classes
                     album = albumItem;
                 }
             }
+
             if (album == null)
             {
                 throw new ArgumentException("The album does not belong to this artist");
+
                 return null;
             }
             else
