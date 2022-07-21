@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace Kri4oFy.Classes
 {
-    internal class CnsoleComunicator : IIOclass
+    internal class CnsoleIO : IInputOutput
 
     {
-        public string Read()
+        public int Read()
         {
-            return Console.Read().ToString();
+            return Console.Read();
         }
 
         public string ReadLine()
