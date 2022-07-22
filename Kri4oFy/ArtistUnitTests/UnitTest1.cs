@@ -4,25 +4,28 @@ using Kri4oFy.Classes;
 using Kri4oFy.Constants;
 using System.Globalization;
 using Kri4oFy.Interfaces;
+using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace ArtistUnitTests
 {
     [TestClass]
     public class ArtistUnitTest
     {
-        private UserTypeEnum artist;
+        //private UserTypeEnum artist;
 
         Artist SetUpMetallica()
         {
-            User user1 = new User("Metallica", "TheBest", artist);
-            Album album = new Album("Black Album", "default");
+            User user1 = new User("Metallica", "TheBest", UserTypeEnum.artist);
+            Artist artist1 = new Artist(user1, "Metallica");
+            Album album = new Album("Black Album", artist1);
             Song song1 = new Song("Ener Sandman", 5 * 60 + 31, album);
             album.Songs.Add(song1);
             Song song2 = new Song("Sad but True", 5 * 60 + 24, album);
             album.Songs.Add(song2);
             Song song3 = new Song("Nothing Else Matters", 6 * 60 + 28, album);
             album.Songs.Add(song3);
-            Artist artist1 = new Artist(user1, "Metallica");
+            
             artist1.Genres.Add(GenreEnum.rock);
             artist1.Genres.Add(GenreEnum.metal);
             artist1.Albums.Add(album);
@@ -88,7 +91,7 @@ namespace ArtistUnitTests
         public void RemoveAlbum_Removes_ItemsCorrectly()
         {
             Artist metallica = SetUpMetallica();
-            Album demoalbum = new Album("White Album", "default");
+            Album demoalbum = new Album("White Album", metallica);
 
             metallica.Albums.Add(demoalbum);
             metallica.RemoveAlbum("White Album");
@@ -109,7 +112,7 @@ namespace ArtistUnitTests
         {
             Artist metallica = SetUpMetallica();
 
-            Album demoalbum = new Album("White Album", "default");
+            Album demoalbum = new Album("White Album", metallica);
             metallica.Albums.Add(demoalbum);
 
             Assert.AreEqual(demoalbum, metallica.RemoveAlbum("White Album"));
@@ -120,7 +123,7 @@ namespace ArtistUnitTests
         {
             Artist metallica = SetUpMetallica();
             ISong demosong = new Song("Demo Song", 184);
-            Album demoalbum = new Album("White Album", "default");
+            Album demoalbum = new Album("White Album", metallica);
 
             metallica.Albums.Add(demoalbum);
             demoalbum.Songs.Add(demosong);
@@ -135,7 +138,7 @@ namespace ArtistUnitTests
         {
             Artist metallica = SetUpMetallica();
             ISong demosong = new Song("Demo Song", 184);
-            Album demoalbum = new Album("White Album", "default");
+            Album demoalbum = new Album("White Album", metallica);
 
             metallica.Albums.Add(demoalbum);
             demoalbum.Songs.Add(demosong);
@@ -163,7 +166,7 @@ namespace ArtistUnitTests
         public void AddAlbum_Adds_the_Album_correctly()
         {
             Artist metallica = SetUpMetallica();
-            Album demoalbum = new Album("White Album", "default");
+            Album demoalbum = new Album("White Album", metallica);
 
             metallica.AddAlbum(demoalbum);
 
@@ -174,7 +177,7 @@ namespace ArtistUnitTests
         public void AddAlbum_Adds_the_Album_Successfuly_Returns_True()
         {
             Artist metallica = SetUpMetallica();
-            Album demoalbum = new Album("White Album", "default");
+            Album demoalbum = new Album("White Album", metallica);
 
             Assert.AreEqual(true, metallica.AddAlbum(demoalbum));
         }
@@ -183,7 +186,7 @@ namespace ArtistUnitTests
         public void AddAlbum_Throws_Error_If_Album_Already_Exists()
         {
             Artist metallica = SetUpMetallica();
-            Album demoalbum = new Album("White Album", "default");
+            Album demoalbum = new Album("White Album", metallica);
 
             metallica.AddAlbum(demoalbum);
 
@@ -222,6 +225,81 @@ namespace ArtistUnitTests
             ISong demosong = new Song("Demo Song", 184);
             metallica.AddSongToAlbum("Black Album", demosong);
             Assert.ThrowsException<ArgumentException>(() => metallica.AddSongToAlbum("Black Album", demosong));
+        }
+
+        [TestMethod]
+        public void Regex_Matches_User()
+        {
+            bool res = VariableConstants.userReg.IsMatch("<user><Metallica>(TheBest){artist}</user>");
+
+            Assert.IsTrue(res);
+        }
+
+        [TestMethod]
+        public void Regex_Does_Not_Match_Other_Class()
+        {
+            bool res = VariableConstants.userReg.IsMatch("<listener><Go6koy><Georgi D>[17/12/1996](genres: ['rock', 'metal'])(likedSongs: ['Nothing Else Matters', 'Obseben'])(playlists: [])</listener>");
+
+            Assert.IsFalse(res);
+        }
+
+        [TestMethod]
+        public void GetUsers_Logic_Is_Correct_1()
+        {
+            Match m = VariableConstants.userReg.Match(" <user><Metallica>(TheBest){artist}</user> ");
+            if (m.Success)
+            {
+                String username = m.Groups[1].ToString();
+                String password = m.Groups[2].ToString();
+                UserTypeEnum type = (UserTypeEnum)Enum.Parse(typeof(UserTypeEnum), m.Groups[3].ToString());
+
+                User newUser = new User(username, password, type);
+                
+                Assert.AreEqual("Metallica", newUser.Username);
+            }
+        }
+
+        [TestMethod]
+        public void GetUsers_Logic_Is_Correct_2()
+        {
+            Match m = VariableConstants.userReg.Match(" <user><Metallica>(TheBest){artist}</user> ");
+            if (m.Success)
+            {
+                String username = m.Groups[1].ToString();
+                String password = m.Groups[2].ToString();
+                UserTypeEnum type = (UserTypeEnum)Enum.Parse(typeof(UserTypeEnum), m.Groups[3].ToString());
+
+                User newUser = new User(username, password, type);
+
+                Assert.AreEqual("TheBest", newUser.Password);
+            }
+        }
+
+        [TestMethod]
+        public void GetUsers_Logic_Is_Correct_3()
+        {
+            Match m = VariableConstants.userReg.Match(" <user><Metallica>(TheBest){artist}</user> ");
+            if (m.Success)
+            {
+                String username = m.Groups[1].ToString();
+                String password = m.Groups[2].ToString();
+                UserTypeEnum type = (UserTypeEnum)Enum.Parse(typeof(UserTypeEnum), m.Groups[3].ToString());
+
+                User newUser = new User(username, password, type);
+
+                Assert.AreEqual(UserTypeEnum.artist, newUser.Type);
+            }
+        }
+
+        [TestMethod]
+        public void GetStrings_Logic_Is_correct()
+        {
+            List<string> strings = new List<string>();
+            foreach (Match match in Regex.Matches("'Enter Sandman', 'Sad but True', 'Nothing Else Matters'", VariableConstants.arrNamesReg.ToString(), RegexOptions.None))
+            {
+                strings.Add(match.Groups[1].ToString());
+            }
+            Assert.AreEqual("Enter Sandman", strings[0]);
         }
     }
 }

@@ -67,7 +67,7 @@ namespace Kri4oFy.Classes
         }
 
         //methods
-        public string GetFileString => throw new NotImplementedException();
+        public virtual string GetFileString => throw new NotImplementedException();
 
         public string GetInfo
         {
@@ -89,7 +89,7 @@ namespace Kri4oFy.Classes
         {
             if(songs.Contains(song))
             {
-                throw new ArgumentException("The song already exists ion this collection");
+                throw new ArgumentException("The song already exists in this collection");
                 //return false;
             }
             else

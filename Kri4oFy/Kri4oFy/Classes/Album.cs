@@ -54,7 +54,7 @@ namespace Kri4oFy.Classes
                 .ToArray());
         }
         
-        new public string GetFileString
+        public override string GetFileString
         {
             get 
             { 

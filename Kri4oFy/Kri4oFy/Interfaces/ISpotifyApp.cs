@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kri4oFy.Constants
+namespace Kri4oFy.Interfaces
 {
-    public enum UserTypeEnum
+    internal interface ISpotifyApp
     {
-        listener,
-        artist
+        void Run();
     }
 }

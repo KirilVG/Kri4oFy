@@ -30,7 +30,7 @@ namespace Kri4oFy.Classes
                 .Join(", ", base.Songs.Select(x => $"'{x.SongName}'")
                 .ToArray());
         }
-        new public string GetFileString
+        public override string GetFileString
         {
             get 
             { 

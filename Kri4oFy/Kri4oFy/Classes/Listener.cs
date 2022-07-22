@@ -52,7 +52,7 @@ namespace Kri4oFy.Classes
         {
             return String.Join(", ", playLists.Select(x => $"'{x.CollectionName}'"));
         }
-        new public string GetFileString
+        public override string GetFileString
         {
             get
             {

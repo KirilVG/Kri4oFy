@@ -42,7 +42,7 @@ namespace Kri4oFy.Classes
             set { type = value; }
         }
 
-        public string GetFileString
+        public virtual string GetFileString
         {
             get { return $"<user><{Username}>({Password}){{{Type}}}"; }
         }
