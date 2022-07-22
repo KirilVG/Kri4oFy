@@ -28,10 +28,5 @@ namespace Kri4oFy.Classes
         {
             sw.WriteLine(output);
         }
-
-        ~FileOutput()
-        {
-            sw.Close();
-        }
     }
 }

@@ -26,10 +26,5 @@ namespace Kri4oFy.Classes
         {
             return sr.ReadLine();
         }
-
-        ~FileInput()
-        {
-            sr.Close();
-        }
     }
 }

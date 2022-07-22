@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Kri4oFy.Classes
 {
-    internal class CnsoleIO : IInputOutput
+    public class ConsoleIO : IInputOutput
 
     {
         public int Read()

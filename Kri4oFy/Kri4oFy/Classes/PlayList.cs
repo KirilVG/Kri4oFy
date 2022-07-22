@@ -34,7 +34,7 @@ namespace Kri4oFy.Classes
         {
             get 
             { 
-                return $"//<playlists>" +
+                return $"<playlists>" +
                     $"<{base.CollectionName}>" +
                     $"(songs: [{GetSongsAsString()}])" +
                     $"</playlists>"; 

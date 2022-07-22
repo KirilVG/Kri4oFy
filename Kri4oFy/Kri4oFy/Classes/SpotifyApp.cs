@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Text.RegularExpressions;
 using System.Globalization;
+using System.IO;
 
 namespace Kri4oFy.Classes
 {
@@ -40,7 +41,9 @@ namespace Kri4oFy.Classes
         }
         public void Run()
         {
-            throw new NotImplementedException();
+            TakeFromFile();
+            
+            SaveInFile();
         }
 
         private void TakeFromFile()
@@ -151,7 +154,7 @@ namespace Kri4oFy.Classes
                 {
                     String username = m.Groups[1].ToString();
                     int userInd = IndexOfUser(username, users);
-                    if (userInd == -1 || users[userInd].Type != UserTypeEnum.listener)
+                    if (userInd == -1 || users[userInd].Type != UserTypeEnum.artist)
                     {
                         throw new Exception("a user with that username does not exist or isn't an artist");
                     }
@@ -192,7 +195,7 @@ namespace Kri4oFy.Classes
             string line;
             while ((line = iFile.ReadLine()) != null)
             {
-                Match m = VariableConstants.albumReg.Match(line); //add a new regex
+                Match m = VariableConstants.albumReg.Match(line);
                 if (m.Success)
                 {
                     String albumName = m.Groups[1].ToString();
@@ -204,7 +207,7 @@ namespace Kri4oFy.Classes
                     else
                     {
                         IAlbum album = albums[albumInd];
-                        album.DateOfCreation = DateTime.ParseExact($"00/00/{m.Groups[2].ToString()}", "dd/mm/yyyy", CultureInfo.InvariantCulture);
+                        album.DateOfCreation = DateTime.ParseExact($"01/01/{m.Groups[2].ToString()}", "dd/mm/yyyy", CultureInfo.InvariantCulture);
                         album.Genre = (GenreEnum)Enum.Parse(typeof(GenreEnum), m.Groups[3].ToString());
                         GetStringsFromList(m.Groups[4].ToString())
                             .ForEach(x =>
@@ -235,7 +238,7 @@ namespace Kri4oFy.Classes
             string line;
             while ((line = iFile.ReadLine()) != null)
             {
-                Match m = VariableConstants.playlistReg.Match(line); //add a new regex
+                Match m = VariableConstants.playlistReg.Match(line);
                 if (m.Success)
                 {
                     String playlistName = m.Groups[1].ToString();
@@ -293,68 +296,67 @@ namespace Kri4oFy.Classes
         }
         private void SaveInFile()
         {
-            FileOutput oFile=new FileOutput(filePath);
-            SaveUsers(oFile);
-            SaveListeners(oFile);
-            SaveArtists(oFile);
-            SaveAlbums(oFile);
-            SavePlaylists(oFile);
-            SaveSongs(oFile);
-        }
-
-        private void SaveUsers(IOutput ofile)
-        {
-            foreach(IUser user in users)
+            //FileOutput oFile=new FileOutput("saveFile2.txt");// change it to filepath later
+            using (StreamWriter sw = new StreamWriter(filePath))
             {
-                ofile.WriteLine(((User)user).GetFileString);
+                StringBuilder sb = new StringBuilder();
+                sb.Append(FileStringUsers());
+                sb.Append(FileStringListeners());
+                sb.Append(FileStringArtists());
+                sb.Append(FileStringAlbums());
+                sb.Append(FileStringSongs());
+                sb.Append(FileStringPlaylists());
+                sw.WriteLine(sb);
+               
             }
         }
-        private void SaveArtists(IOutput ofile)
+
+        private string FileStringUsers()
         {
+            return string.Join("\n", users.Select(x => x.GetUserFileString))+"\n\n";
+            
+        }
+        private string FileStringArtists()
+        {
+            string res = "";
             foreach (IUser user in users)
             {
                 if(user.Type==UserTypeEnum.artist)
                 {
-                    ofile.WriteLine(((Artist)user).GetFileString);
+                    res+=user.GetFileString;
                 }
-                
             }
+            return res + "\n\n";
         }
-        private void SaveListeners(IOutput ofile)
+
+        private string FileStringListeners()
         {
+            string res = "";
             foreach (IUser user in users)
             {
                 if (user.Type == UserTypeEnum.listener)
                 {
-                    ofile.WriteLine(((Listener)user).GetFileString);
+                    res += user.GetFileString;
                 }
-
             }
+            return res + "\n\n";
         }
 
-        private void SaveAlbums(IOutput ofile)
+        private string FileStringAlbums()
         {
-            foreach(IAlbum album in albums)
-            {
-                ofile.WriteLine(album.GetFileString);
-            }
+            return string.Join("\n", albums.Select(x => x.GetFileString)) + "\n\n";
         }
 
-        private void SavePlaylists(IOutput ofile)
+        private string FileStringPlaylists()
         {
-            foreach (IPlayList playlist in playlists)
-            {
-                ofile.WriteLine(playlist.GetFileString);
-            }
+            return string.Join("\n", playlists.Select(x => x.GetFileString)) + "\n\n";
         }
 
-        private void SaveSongs(IOutput ofile)
+        private string FileStringSongs()
         {
-            foreach (ISong song in songs)
-            {
-                ofile.WriteLine(song.GetFileString);
-            }
+            return string.Join("\n", songs.Select(x => x.GetFileString)) + "\n\n";
         }
+
         private List<string> GetStringsFromList(string input)
         {
             List<string> strings = new List<string>();
@@ -364,6 +366,7 @@ namespace Kri4oFy.Classes
             }
             return strings;
         }
+
         private int IndexOfUser(string username, List<IUser> usersList)
         {
             int ind = -1;

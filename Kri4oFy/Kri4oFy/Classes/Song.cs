@@ -15,7 +15,7 @@ namespace Kri4oFy.Classes
         private IAlbum album;
 
         //constructors
-        public Song(string songName,int time=0, IAlbum album=null)
+        public Song(string songName, int time = 0, IAlbum album = null)
         {
             this.SongName = songName;
             this.Time = time;
@@ -23,10 +23,10 @@ namespace Kri4oFy.Classes
         }
 
         //properties
-        public string SongName 
+        public string SongName
         {
-            get { return songName; } 
-            set { songName = value; } 
+            get { return songName; }
+            set { songName = value; }
         }
         public int Time
         {
@@ -46,7 +46,7 @@ namespace Kri4oFy.Classes
             {
                 return $"<song>" +
                     $"<{SongName}>" +
-                    $"[6:28]" +
+                    $"[{time / 60}:{time % 60:D2}]" +
                     $"</song>";
             }
         }

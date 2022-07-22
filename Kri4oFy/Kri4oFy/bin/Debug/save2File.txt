@@ -1,0 +1,23 @@
+<user><Go6koy>(123456){listener}</user>
+<user><Metallica>(TheBest){artist}</user>
+<user><Stenli>(123456){artist}</user>
+
+
+<listener><Go6koy><Georgi D>[17/12/1996](genres: ['rock', 'metal'])(likedSongs: ['Nothing Else Matters', 'Obseben'])(playlists: ['Pesni'])</listener>
+
+
+<artist><Metallica><Metallica>[28/10/1981](genres: ['rock', 'metal'])(albums: ['Black Album'])</artist>
+<artist><Stenli><Stanislav Slanev>[12/08/1959](genres: ['pop', 'rock'])(albums: ['Obseben'])</artist>
+
+
+<album><Black Album>[1991](genres: [metal])(songs: ['Enter Sandman', 'Sad but True', 'Nothing Else Matters'])</album>
+<album><Obseben>[2002](genres: [rock])(songs: ['Yarost', 'Obseben'])</album>
+
+
+<song><Enter Sandman>[5:31]</song>
+<song><Sad but True>[5:24]</song>
+<song><Nothing Else Matters>[6:28]</song>
+<song><Yarost>[4:17]</song>
+<song><Obseben>[4:08]</song>
+
+<playlist><Pesni>(songs: ['Obseben', 'Yarost'])</playlists>
