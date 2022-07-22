@@ -25,7 +25,7 @@ namespace Kri4oFy.Classes
 
         List<ISong> songs;
 
-        public SpotifyApp(IInputOutput comunicator, string filePath)
+        public SpotifyApp(IInputOutput Comunicator, string filePath)
         {
             this.comunicator = comunicator;
 
@@ -42,41 +42,54 @@ namespace Kri4oFy.Classes
         public void Run()
         {
             TakeFromFile();
-            
-            SaveInFile();
+
+
+            //SaveInFile();
         }
 
         private void TakeFromFile()
         {
-            GetUsers();
-            GetListeners();
-            GetArtists();
-            GetAlbums();
-            GetPlayLists();
-            GetSongs();
+            if (!(File.Exists(filePath)))
+            {
+                using (FileStream fs = File.Create(filePath))
+                {
+
+                }
+            }
+            else
+            {
+                GetUsers();
+                GetListeners();
+                GetArtists();
+                GetAlbums();
+                GetPlayLists();
+                GetSongs();
+            }
         }
 
         private void GetUsers()
         {
-            FileInput iFile = new FileInput(filePath);
-            string line;
-            while ((line = iFile.ReadLine()) != null)
+            using (StreamReader sr = new StreamReader(filePath))
             {
-                Match m = VariableConstants.userReg.Match(line);
-                if (m.Success)
+                string line;
+                while ((line = sr.ReadLine()) != null)
                 {
-                    String username = m.Groups[1].ToString();
-                    String password = m.Groups[2].ToString();
-                    UserTypeEnum type = (UserTypeEnum)Enum.Parse(typeof(UserTypeEnum), m.Groups[3].ToString());
+                    Match m = VariableConstants.userReg.Match(line);
+                    if (m.Success)
+                    {
+                        String username = m.Groups[1].ToString();
+                        String password = m.Groups[2].ToString();
+                        UserTypeEnum type = (UserTypeEnum)Enum.Parse(typeof(UserTypeEnum), m.Groups[3].ToString());
 
-                    if (IndexOfUser(username, users) == -1)
-                    {
-                        User newUser = new User(username, password, type);
-                        users.Add(newUser);
-                    }
-                    else
-                    {
-                        throw new Exception("There already is a user with the same username");
+                        if (IndexOfUser(username, users) == -1)
+                        {
+                            User newUser = new User(username, password, type);
+                            users.Add(newUser);
+                        }
+                        else
+                        {
+                            throw new Exception("There already is a user with the same username");
+                        }
                     }
                 }
             }
@@ -84,60 +97,63 @@ namespace Kri4oFy.Classes
 
         private void GetListeners()
         {
-            FileInput iFile = new FileInput(filePath);
-            string line;
-            while ((line = iFile.ReadLine()) != null)
+            using (StreamReader sr = new StreamReader(filePath))
             {
-                Match m = VariableConstants.listenerReg.Match(line);
-                if (m.Success)
-                {
-                    String username = m.Groups[1].ToString();
-                    int userInd = IndexOfUser(username, users);
-                    if (userInd == -1 || users[userInd].Type != UserTypeEnum.listener)
-                    {
-                        throw new Exception("a user with that username does not exist or isn't a listener");
-                    }
-                    else
-                    {
-                        IListener listener = new Listener((User)users[userInd]);
-                        users[userInd] = listener;
 
-                        listener.FullName = m.Groups[2].ToString();
-                        listener.DateOfBirth = DateTime.ParseExact(m.Groups[3].ToString(), "dd/mm/yyyy", CultureInfo.InvariantCulture);
-                        GetStringsFromList(m.Groups[4].ToString())
-                            .ForEach(x => listener.Genres.Add((GenreEnum)Enum.Parse(typeof(GenreEnum), x)));
-                        GetStringsFromList(m.Groups[5].ToString())
-                            .ForEach(x =>
-                            {
-                                ISong song;
-                                int index = IndexOfSong(x, songs);
-                                if (index == -1)
+                string line;
+                while ((line = sr.ReadLine()) != null)
+                {
+                    Match m = VariableConstants.listenerReg.Match(line);
+                    if (m.Success)
+                    {
+                        String username = m.Groups[1].ToString();
+                        int userInd = IndexOfUser(username, users);
+                        if (userInd == -1 || users[userInd].Type != UserTypeEnum.listener)
+                        {
+                            throw new Exception("a user with that username does not exist or isn't a listener");
+                        }
+                        else
+                        {
+                            IListener listener = new Listener((User)users[userInd]);
+                            users[userInd] = listener;
+
+                            listener.FullName = m.Groups[2].ToString();
+                            listener.DateOfBirth = DateTime.ParseExact(m.Groups[3].ToString(), "dd/mm/yyyy", CultureInfo.InvariantCulture);
+                            GetStringsFromList(m.Groups[4].ToString())
+                                .ForEach(x => listener.Genres.Add((GenreEnum)Enum.Parse(typeof(GenreEnum), x)));
+                            GetStringsFromList(m.Groups[5].ToString())
+                                .ForEach(x =>
                                 {
-                                    song = new Song(x);
-                                    songs.Add(song);
-                                }
-                                else
+                                    ISong song;
+                                    int index = IndexOfSong(x, songs);
+                                    if (index == -1)
+                                    {
+                                        song = new Song(x);
+                                        songs.Add(song);
+                                    }
+                                    else
+                                    {
+                                        song = songs[index];
+                                    }
+                                    listener.AddSongToFavourites(song);
+                                });
+                            GetStringsFromList(m.Groups[6].ToString())
+                                .ForEach(x =>
                                 {
-                                    song = songs[index];
-                                }
-                                listener.AddSongToFavourites(song);
-                            });
-                        GetStringsFromList(m.Groups[6].ToString())
-                            .ForEach(x =>
-                            {
-                                IPlayList playList;
-                                int index = IndexOfPlaylist(x, playlists);
-                                if (index == -1)
-                                {
-                                    playList = new PlayList(x);
-                                    playlists.Add(playList);
-                                }
-                                else
-                                {
-                                    playList = playlists[index];
-                                }
-                                listener.AddPlayList(playList);
-                            });
+                                    IPlayList playList;
+                                    int index = IndexOfPlaylist(x, playlists);
+                                    if (index == -1)
+                                    {
+                                        playList = new PlayList(x);
+                                        playlists.Add(playList);
+                                    }
+                                    else
+                                    {
+                                        playList = playlists[index];
+                                    }
+                                    listener.AddPlayList(playList);
+                                });
+                        }
                     }
                 }
             }
@@ -145,45 +161,47 @@ namespace Kri4oFy.Classes
 
         private void GetArtists()
         {
-            FileInput iFile = new FileInput(filePath);
-            string line;
-            while ((line = iFile.ReadLine()) != null)
+            using (StreamReader sr = new StreamReader(filePath))
             {
-                Match m = VariableConstants.artistReg.Match(line); //add a new regex
-                if (m.Success)
+
+                string line;
+                while ((line = sr.ReadLine()) != null)
                 {
-                    String username = m.Groups[1].ToString();
-                    int userInd = IndexOfUser(username, users);
-                    if (userInd == -1 || users[userInd].Type != UserTypeEnum.artist)
+                    Match m = VariableConstants.artistReg.Match(line); //add a new regex
+                    if (m.Success)
                     {
-                        throw new Exception("a user with that username does not exist or isn't an artist");
-                    }
-                    else
-                    {
-                        IArtist artist = new Artist((User)users[userInd]);
-                        users[userInd] = artist;
+                        String username = m.Groups[1].ToString();
+                        int userInd = IndexOfUser(username, users);
+                        if (userInd == -1 || users[userInd].Type != UserTypeEnum.artist)
+                        {
+                            throw new Exception("a user with that username does not exist or isn't an artist");
+                        }
+                        else
+                        {
+                            IArtist artist = new Artist((User)users[userInd]);
+                            users[userInd] = artist;
 
-                        artist.FullName = m.Groups[2].ToString();
-                        artist.DateOfBirth = DateTime.ParseExact(m.Groups[3].ToString(), "dd/mm/yyyy", CultureInfo.InvariantCulture);
-                        GetStringsFromList(m.Groups[4].ToString())
-                            .ForEach(x => artist.Genres.Add((GenreEnum)Enum.Parse(typeof(GenreEnum), x)));
-                        GetStringsFromList(m.Groups[5].ToString())
-                            .ForEach(x =>
-                            {
-                                IAlbum album;
-                                int index = IndexOfAlbum(x, albums);
-                                if (index == -1)
+                            artist.FullName = m.Groups[2].ToString();
+                            artist.DateOfBirth = DateTime.ParseExact(m.Groups[3].ToString(), "dd/mm/yyyy", CultureInfo.InvariantCulture);
+                            GetStringsFromList(m.Groups[4].ToString())
+                                .ForEach(x => artist.Genres.Add((GenreEnum)Enum.Parse(typeof(GenreEnum), x)));
+                            GetStringsFromList(m.Groups[5].ToString())
+                                .ForEach(x =>
                                 {
-                                    album = new Album(x);
-                                    albums.Add(album);
-                                }
-                                else
-                                {
-                                    album = albums[index];
-                                }
-                                artist.AddAlbum(album);
-                            });
-
+                                    IAlbum album;
+                                    int index = IndexOfAlbum(x, albums);
+                                    if (index == -1)
+                                    {
+                                        album = new Album(x);
+                                        albums.Add(album);
+                                    }
+                                    else
+                                    {
+                                        album = albums[index];
+                                    }
+                                    artist.AddAlbum(album);
+                                });
+                        }
                     }
                 }
             }
@@ -191,41 +209,46 @@ namespace Kri4oFy.Classes
 
         private void GetAlbums()
         {
-            FileInput iFile = new FileInput(filePath);
-            string line;
-            while ((line = iFile.ReadLine()) != null)
+            Console.WriteLine("Geting Albums");
+            using (StreamReader sr = new StreamReader(filePath))
             {
-                Match m = VariableConstants.albumReg.Match(line);
-                if (m.Success)
+                string line;
+                while ((line = sr.ReadLine()) != null)
                 {
-                    String albumName = m.Groups[1].ToString();
-                    int albumInd = IndexOfAlbum(albumName, albums);
-                    if (albumInd == -1)
+                    Match m = VariableConstants.albumReg.Match(line);
+                    if (m.Success)
                     {
-                        throw new Exception("This album is not connected with an artist.");
-                    }
-                    else
-                    {
-                        IAlbum album = albums[albumInd];
-                        album.DateOfCreation = DateTime.ParseExact($"01/01/{m.Groups[2].ToString()}", "dd/mm/yyyy", CultureInfo.InvariantCulture);
-                        album.Genre = (GenreEnum)Enum.Parse(typeof(GenreEnum), m.Groups[3].ToString());
-                        GetStringsFromList(m.Groups[4].ToString())
-                            .ForEach(x =>
-                            {
-                                ISong song;
-                                int index = IndexOfSong(x, songs);
-                                if (index == -1)
+                        Console.WriteLine("match is successful");
+                        String albumName = m.Groups[1].ToString();
+                        int albumInd = IndexOfAlbum(albumName, albums);
+                        if (albumInd == -1)
+                        {
+                            throw new Exception("This album is not connected with an artist.");
+                        }
+                        else
+                        {
+                            Console.WriteLine("CreatingAlbum");
+                            IAlbum album = albums[albumInd];
+                            album.DateOfCreation = DateTime.ParseExact($"01/01/{m.Groups[2].ToString()}", "dd/mm/yyyy", CultureInfo.InvariantCulture);
+                            album.Genre = (GenreEnum)Enum.Parse(typeof(GenreEnum), m.Groups[3].ToString());
+                            GetStringsFromList(m.Groups[4].ToString())
+                                .ForEach(x =>
                                 {
-                                    song = new Song(x);
-                                    songs.Add(song);
-                                }
-                                else
-                                {
-                                    song = songs[index];
-                                }
-                                album.AddSong(song);
-                                song.Album = album;
-                            });
+                                    ISong song;
+                                    int index = IndexOfSong(x, songs);
+                                    if (index == -1)
+                                    {
+                                        song = new Song(x);
+                                        songs.Add(song);
+                                    }
+                                    else
+                                    {
+                                        song = songs[index];
+                                    }
+                                    album.AddSong(song);
+                                    song.Album = album;
+                                });
+                        }
                     }
                 }
             }
@@ -234,38 +257,40 @@ namespace Kri4oFy.Classes
         private void GetPlayLists()
         {
 
-            FileInput iFile = new FileInput(filePath);
-            string line;
-            while ((line = iFile.ReadLine()) != null)
+            using (StreamReader sr = new StreamReader(filePath))
             {
-                Match m = VariableConstants.playlistReg.Match(line);
-                if (m.Success)
+                string line;
+                while ((line = sr.ReadLine()) != null)
                 {
-                    String playlistName = m.Groups[1].ToString();
-                    int playlistInd = IndexOfPlaylist(playlistName, playlists);
-                    if (playlistInd == -1)
+                    Match m = VariableConstants.playlistReg.Match(line);
+                    if (m.Success)
                     {
-                        throw new Exception("This playlist is not connected with a listener.");
-                    }
-                    else
-                    {
-                        IPlayList playlist = playlists[playlistInd];
-                        GetStringsFromList(m.Groups[2].ToString())
-                            .ForEach(x =>
-                            {
-                                ISong song;
-                                int index = IndexOfSong(x, songs);
-                                if (index == -1)
+                        String playlistName = m.Groups[1].ToString();
+                        int playlistInd = IndexOfPlaylist(playlistName, playlists);
+                        if (playlistInd == -1)
+                        {
+                            throw new Exception("This playlist is not connected with a listener.");
+                        }
+                        else
+                        {
+                            IPlayList playlist = playlists[playlistInd];
+                            GetStringsFromList(m.Groups[2].ToString())
+                                .ForEach(x =>
                                 {
-                                    song = new Song(x);
-                                    songs.Add(song);
-                                }
-                                else
-                                {
-                                    song = songs[index];
-                                }
-                                playlist.AddSong(song);
-                            });
+                                    ISong song;
+                                    int index = IndexOfSong(x, songs);
+                                    if (index == -1)
+                                    {
+                                        song = new Song(x);
+                                        songs.Add(song);
+                                    }
+                                    else
+                                    {
+                                        song = songs[index];
+                                    }
+                                    playlist.AddSong(song);
+                                });
+                        }
                     }
                 }
             }
@@ -273,27 +298,30 @@ namespace Kri4oFy.Classes
 
         private void GetSongs()
         {
-            FileInput iFile = new FileInput(filePath);
-            string line;
-            while ((line = iFile.ReadLine()) != null)
+            using (StreamReader sr = new StreamReader(filePath))
             {
-                Match m = VariableConstants.songReg.Match(line); //add a new regex
-                if (m.Success)
+                string line;
+                while ((line = sr.ReadLine()) != null)
                 {
-                    String songName = m.Groups[1].ToString();
-                    int songInd = IndexOfSong(songName, songs);
-                    if (songInd == -1)
+                    Match m = VariableConstants.songReg.Match(line); //add a new regex
+                    if (m.Success)
                     {
-                        throw new Exception("This song is not been mentioned before");
-                    }
-                    else
-                    {
-                        ISong song = songs[songInd];
-                        song.Time = int.Parse(m.Groups[2].ToString()) * 60 + int.Parse(m.Groups[3].ToString());
+                        String songName = m.Groups[1].ToString();
+                        int songInd = IndexOfSong(songName, songs);
+                        if (songInd == -1)
+                        {
+                            throw new Exception("This song is not been mentioned before");
+                        }
+                        else
+                        {
+                            ISong song = songs[songInd];
+                            song.Time = int.Parse(m.Groups[2].ToString()) * 60 + int.Parse(m.Groups[3].ToString());
+                        }
                     }
                 }
             }
         }
+
         private void SaveInFile()
         {
             //FileOutput oFile=new FileOutput("saveFile2.txt");// change it to filepath later
@@ -307,23 +335,23 @@ namespace Kri4oFy.Classes
                 sb.Append(FileStringSongs());
                 sb.Append(FileStringPlaylists());
                 sw.WriteLine(sb);
-               
+
             }
         }
 
         private string FileStringUsers()
         {
-            return string.Join("\n", users.Select(x => x.GetUserFileString))+"\n\n";
-            
+            return string.Join("\n", users.Select(x => x.GetUserFileString)) + "\n\n";
+
         }
         private string FileStringArtists()
         {
             string res = "";
             foreach (IUser user in users)
             {
-                if(user.Type==UserTypeEnum.artist)
+                if (user.Type == UserTypeEnum.artist)
                 {
-                    res+=user.GetFileString;
+                    res += user.GetFileString;
                 }
             }
             return res + "\n\n";

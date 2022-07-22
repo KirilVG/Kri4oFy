@@ -14,6 +14,12 @@ namespace Kri4oFy.Classes
         StreamReader sr;
         public FileInput(string filePath)
         {
+            if (!File.Exists(filePath))
+            {
+                StreamWriter writer = new StreamWriter(filePath);
+                writer.Close();
+            }
+     
             this.filePath = filePath;
             sr = new StreamReader(filePath);
         }
