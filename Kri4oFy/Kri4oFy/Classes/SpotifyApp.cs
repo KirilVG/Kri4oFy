@@ -46,6 +46,8 @@ namespace Kri4oFy.Classes
 
         public void Run()
         {
+            TakeFromFile();
+
             string command = "";
 
             while (command != VariableConstants.exitCommand)
@@ -924,7 +926,7 @@ namespace Kri4oFy.Classes
                         else
                         {
                             IPlayList playlist = playlists[playlistInd];
-                            Console.WriteLine(m.Groups[2].ToString());
+                            //Console.WriteLine(m.Groups[2].ToString());
                             GetStringsFromList(m.Groups[2].ToString())
                                 .ForEach(x =>
                                 {
