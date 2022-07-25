@@ -44,12 +44,12 @@ namespace Kri4oFy.Classes
 
         public virtual string GetFileString
         {
-            get { return $"<user><{Username}>({Password}){{{Type}}}"; }
+            get { return $"<user><{Username}>({Password}){{{Type}}}</user>"; }
         }
 
         public string GetUserFileString
         {
-            get { return $"<user><{Username}>({Password}){{{Type}}}"; }
+            get { return $"<user><{Username}>({Password}){{{Type}}}</user>"; }
         }
 
         //methods
@@ -63,6 +63,11 @@ namespace Kri4oFy.Classes
             {
                 return false;
             }
+        }
+
+        virtual public string getUserInformation()
+        {
+            return $"{type} Username:{username} Password:{password}";
         }
     }
 }

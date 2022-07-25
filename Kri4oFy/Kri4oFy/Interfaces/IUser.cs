@@ -20,5 +20,7 @@ namespace Kri4oFy.Interfaces
         bool CheckLogInInfo(string userame, string password);
 
         string GetUserFileString { get; }
+
+        string getUserInformation();
     }
 }
