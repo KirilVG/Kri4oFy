@@ -41,10 +41,11 @@ namespace Kri4oFy.Constants
         public const string printSongsFromPlaylistCommand = "Print the content of a playlist";
         public const string addPlaylistCommand = "Add Playlist";
         public const string removePlaylistCommand = "Remove Playlist";
-        public const string AddSongToFavouritesCommand = "Add Song to Favourites";
-        public const string AddSongToPlaylistCommand = "Add song to playlist";
-        public const string RemoveSongFromFavouritesCommand = "Remove Song From Favourites";
-        public const string RemoveSongFromPlaylistCommand = "Remove Song from Playlist";
+        public const string addSongToFavouritesCommand = "Add Song to Favourites";
+        public const string addSongToPlaylistCommand = "Add song to playlist";
+        public const string removeSongFromFavouritesCommand = "Remove Song From Favourites";
+        public const string removeSongFromPlaylistCommand = "Remove Song from Playlist";
+        public const string helpCommand = "Help";
 
         //messages
         public const string wrongCommandMSG = "This command has not been implemented yet";

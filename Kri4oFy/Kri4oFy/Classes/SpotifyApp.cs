@@ -117,20 +117,24 @@ namespace Kri4oFy.Classes
                             RemovePlaylistFunc();
                             break;
 
-                        case VariableConstants.AddSongToFavouritesCommand:
+                        case VariableConstants.addSongToFavouritesCommand:
                             AddSongToFavouritesFunc();
                             break;
 
-                        case VariableConstants.AddSongToPlaylistCommand:
+                        case VariableConstants.addSongToPlaylistCommand:
                             AddSongToPlaylistFunc();
                             break;
 
-                        case VariableConstants.RemoveSongFromPlaylistCommand:
+                        case VariableConstants.removeSongFromPlaylistCommand:
                             RemoveSongFromPlaylist();
                             break;
 
-                        case VariableConstants.RemoveSongFromFavouritesCommand:
+                        case VariableConstants.removeSongFromFavouritesCommand:
                             RemoveSongFromFavourites();
+                            break;
+
+                        case VariableConstants.helpCommand:
+                            PreviewPossibleCommands();
                             break;
 
                         default:
@@ -949,6 +953,41 @@ namespace Kri4oFy.Classes
             }
         }
 
+        private void PreviewPossibleCommands()
+        {
+            if(currentUser==null)
+            {
+                comunicator.WriteLine(VariableConstants.logInCommand);
+                comunicator.WriteLine(VariableConstants.saveCommand);
+            }
+            else if(currentUser.Type==UserTypeEnum.artist)
+            {
+                comunicator.WriteLine(VariableConstants.printInfoCommand);
+                comunicator.WriteLine(VariableConstants.printAlbumsCommand);
+                comunicator.WriteLine(VariableConstants.printAlbumContentCommand);
+                comunicator.WriteLine(VariableConstants.addAlbumCommand);
+                comunicator.WriteLine(VariableConstants.removeAlbumCommand);
+                comunicator.WriteLine(VariableConstants.addSongToAlbumCommand);
+                comunicator.WriteLine(VariableConstants.removeSongFromAlbumCommand);
+                comunicator.WriteLine(VariableConstants.logOutCommand);
+                comunicator.WriteLine(VariableConstants.saveCommand);
+            }
+            else if(currentUser.Type==UserTypeEnum.listener)
+            {
+                comunicator.WriteLine(VariableConstants.printInfoCommand);
+                comunicator.WriteLine(VariableConstants.printPlaylistsCommand);
+                comunicator.WriteLine(VariableConstants.printFavuriteSongsCommand);
+                comunicator.WriteLine(VariableConstants.printSongsFromPlaylistCommand);
+                comunicator.WriteLine(VariableConstants.addPlaylistCommand);
+                comunicator.WriteLine(VariableConstants.removePlaylistCommand);
+                comunicator.WriteLine(VariableConstants.addSongToFavouritesCommand);
+                comunicator.WriteLine(VariableConstants.addSongToPlaylistCommand);
+                comunicator.WriteLine(VariableConstants.removeSongFromFavouritesCommand);
+                comunicator.WriteLine(VariableConstants.removeSongFromPlaylistCommand);
+                comunicator.WriteLine(VariableConstants.logOutCommand);
+                comunicator.WriteLine(VariableConstants.saveCommand);
+            }
+        }
         private void GetSongs()
         {
             using (StreamReader sr = new StreamReader(filePath))
