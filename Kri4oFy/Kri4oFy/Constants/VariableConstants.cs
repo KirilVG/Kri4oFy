@@ -10,19 +10,19 @@ namespace Kri4oFy.Constants
     static public class VariableConstants
     {
         //regular expresions
-        static public Regex userReg = new Regex("<user><(\\w+)>\\((\\w+)\\){(\\w+)}<\\/user>");
+        static public Regex userReg = new Regex(@"<user><(\w+)>\((\w+)\){(\w+)}<\/user>");
 
-        static public Regex listenerReg = new Regex("<listener><(\\w+)><([\\w ]+)>\\[([0-9]{2}/[0-9]{2}/[0-9]{4})\\]\\(genres: \\[([\\w', ]*)\\]\\)\\(likedSongs: \\[([\\w', ]*)\\]\\)\\(playlists: \\[([\\w', ]*)\\]\\)<\\/listener>");
+        static public Regex listenerReg = new Regex(@"<listener><(\w+)><([\w ]+)>\[([0-9]{2}/[0-9]{2}/[0-9]{4})\]\(genres: \[([\w', ]*)\]\)\(likedSongs: \[([\w', ]*)\]\)\(playlists: \[([\w', ]*)\]\)<\/listener>");
 
-        static public Regex artistReg = new Regex("<artist><(\\w+)><([\\w ]+)>\\[([0-9]{2}/[0-9]{2}/[0-9]{4})\\]\\(genres: \\[([\\w', ]*)\\]\\)\\(albums: \\[([\\w', ]*)]\\)</artist>");
+        static public Regex artistReg = new Regex(@"<artist><(\w+)><([\w ]+)>\[([0-9]{2}/[0-9]{2}/[0-9]{4})\]\(genres: \[([\w', ]*)\]\)\(albums: \[([\w', ]*)]\)<\/artist>");
 
-        static public Regex albumReg = new Regex("<album><([\\w ]+)>\\[([0-9]{4})\\]\\(genre: \\[([\\w ]+)\\]\\)\\(songs: \\[([\\w', ]*)\\]\\)</album>");
+        static public Regex albumReg = new Regex(@"<album><([\w ]+)>\[([0-9]{4})\]\(genre: \[([\w ]+)\]\)\(songs: \[([\w', ]*)\]\)<\/album>");
 
-        static public Regex playlistReg = new Regex("<playlist><(\\w+)>\\(songs: \\[([\\w', ]*)\\]\\)<\\/playlist>");
+        static public Regex playlistReg = new Regex(@"<playlist><(\w+)>\(songs: \[([\w', ]*)\]\)<\/playlist>");
 
-        static public Regex songReg = new Regex("<song><([\\w ]+)>\\[([0-9]+):([0-9]{2})\\]</song>");
+        static public Regex songReg = new Regex(@"<song><([\w ]+)>\[([0-9]+):([0-9]{2})\]<\/song>");
 
-        static public Regex arrNamesReg = new Regex("'([\\w ]+)'");
+        static public Regex arrNamesReg = new Regex(@"'([\w ]+)'");
 
         //commands
         public const string exitCommand = "Exit";
@@ -66,7 +66,7 @@ namespace Kri4oFy.Constants
         public const string userMustBeArtistMSG = "The user must be an artist";
         public const string userMustBeListenerMSG = "The user must be a listener";
         public const string albumWithNameExistsMSG = "An album with this name already exists";
-        public const string albumWithNameDoesNotExistsMSG = "No album with this name does not exists";
+        public const string albumWithNameDoesNotExistsMSG = "No album with this nameexists";
         public const string successfulyAddedAlbumMSG = "Successfuly added the album";
         public const string successfulyRemovedAlbumMSG = "Successfuly removed the album";
         public const string songWithNameExistsMSG = "A song with this name already exists";

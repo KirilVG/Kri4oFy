@@ -190,7 +190,7 @@ namespace Kri4oFy.Classes
 
         public string PrintPlayLists()
         {
-            return String.Join("\n", playLists.Select(x => x.CollectionName));
+            return String.Join("\n", playLists.Select(x => x.GetInfo));
         }
 
         public string PrintSongsFromPlayList(string playListName)

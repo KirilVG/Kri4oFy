@@ -110,6 +110,7 @@ namespace Kri4oFy.Classes
                 return album;
             }
         }
+
         public bool AddAlbum(IAlbum album)
         {
             if (album == null)
@@ -178,7 +179,7 @@ namespace Kri4oFy.Classes
 
         public string PrintAlbums()
         {
-            return String.Join("\n", albums.Select(x => x.CollectionName));
+            return String.Join("\n", albums.Select(x => x.GetInfo));
         }
 
         public IAlbum RemoveAlbum(string albumName)

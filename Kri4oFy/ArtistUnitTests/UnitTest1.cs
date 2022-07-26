@@ -68,7 +68,7 @@ namespace ArtistUnitTests
         {
             Artist metallica = SetUpMetallica();
 
-            Assert.AreEqual("Black Album", metallica.PrintAlbums());
+            Assert.AreEqual("<Album> Name:Black Album length:[17:23]", metallica.PrintAlbums());
         }
 
         [TestMethod]
@@ -96,7 +96,7 @@ namespace ArtistUnitTests
             metallica.Albums.Add(demoalbum);
             metallica.RemoveAlbum("White Album");
 
-            Assert.AreEqual("Black Album", metallica.PrintAlbums());
+            Assert.AreEqual("<Album> Name:Black Album length:[17:23]", metallica.PrintAlbums());
         }
 
         [TestMethod]
@@ -170,7 +170,7 @@ namespace ArtistUnitTests
 
             metallica.AddAlbum(demoalbum);
 
-            Assert.AreEqual("Black Album\nWhite Album", metallica.PrintAlbums());
+            Assert.AreEqual("<Album> Name:Black Album length:[17:23]\n<Album> Name:White Album length:[0:00]", metallica.PrintAlbums());
         }
 
         [TestMethod]

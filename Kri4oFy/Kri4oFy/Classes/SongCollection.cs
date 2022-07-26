@@ -73,7 +73,7 @@ namespace Kri4oFy.Classes
         {
             get
             {
-                return $"<{type}> - {collectionName} length:{Length}";
+                return $"<{type}> Name:{collectionName} length:[{Length/60}:{Length%60:D2}]";
             }
         }
 

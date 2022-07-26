@@ -1006,7 +1006,7 @@ namespace Kri4oFy.Classes
 
                         if (songInd == -1)
                         {
-                            throw new Exception("This song is not been mentioned before");
+                            throw new Exception("This song has not been mentioned before");
                         }
                         else
                         {

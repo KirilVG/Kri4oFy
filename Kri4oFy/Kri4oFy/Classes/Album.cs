@@ -62,7 +62,7 @@ namespace Kri4oFy.Classes
                     $"<{base.CollectionName}>" +
                     $"[{dateOfCreation.Year}]" +
                     $"(genre: [{Genre}])" +
-                    $"(songs: [{{{GetSongsAsString()}}}])" +
+                    $"(songs: [{GetSongsAsString()}])" +
                     $"</album>"; 
             }
         }
