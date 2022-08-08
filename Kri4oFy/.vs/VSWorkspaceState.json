@@ -3,8 +3,9 @@
     "",
     "\\Kri4oFy",
     "\\Kri4oFy\\Classes",
-    "\\Kri4oFy\\Constants"
+    "\\Kri4oFy\\Constants",
+    "\\Kri4oFy\\Interfaces"
   ],
-  "SelectedNode": "\\Kri4oFy\\Classes\\SpotifyApp.cs",
+  "SelectedNode": "\\Kri4oFy\\Interfaces\\IListener.cs",
   "PreviewInSolutionExplorer": false
 }

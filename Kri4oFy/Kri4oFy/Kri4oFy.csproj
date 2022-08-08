@@ -64,7 +64,6 @@
     <Compile Include="Interfaces\IListener.cs" />
     <Compile Include="Interfaces\IInput.cs" />
     <Compile Include="Interfaces\IOutput.cs" />
-    <Compile Include="Interfaces\IPlayList.cs" />
     <Compile Include="Interfaces\ISong.cs" />
     <Compile Include="Interfaces\ISongCollection.cs" />
     <Compile Include="Interfaces\ISpotifyApp.cs" />

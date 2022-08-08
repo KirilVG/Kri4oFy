@@ -21,7 +21,7 @@ namespace Kri4oFy.Classes
 
         List<IAlbum> albums;
 
-        List<IPlayList> playlists;
+        List<ISongCollection> playlists;
 
         List<ISong> songs;
 
@@ -37,7 +37,7 @@ namespace Kri4oFy.Classes
 
             this.albums = new List<IAlbum>();
 
-            this.playlists = new List<IPlayList>();
+            this.playlists = new List<ISongCollection>();
 
             this.songs = new List<ISong>();
 
@@ -296,7 +296,7 @@ namespace Kri4oFy.Classes
 
                 playlistName = comunicator.ReadLine();
 
-                IPlayList playlist = ((IListener)currentUser).RemovePlayList(playlistName);
+                ISongCollection playlist = ((IListener)currentUser).RemovePlayList(playlistName);
 
                 playlists.Remove(playlist);
                 comunicator.WriteLine(VariableConstants.successfulyRemovedPlaylistMSG);
@@ -321,7 +321,7 @@ namespace Kri4oFy.Classes
 
                 playlistName = comunicator.ReadLine();
 
-                IPlayList playlist = new PlayList(playlistName);
+                ISongCollection playlist = new PlayList(playlistName);
 
                 ((IListener)currentUser).AddPlayList(playlist);
 
@@ -410,7 +410,7 @@ namespace Kri4oFy.Classes
                     ISong song = ((IArtist)currentUser).RemoveSongFromAlbum(albumName, songName);
                     songs.Remove(song);
 
-                    foreach (IPlayList playlist in playlists)
+                    foreach (ISongCollection playlist in playlists)
                     {
                         if (playlist.Songs.Contains(song))
                         {
@@ -514,7 +514,7 @@ namespace Kri4oFy.Classes
                     {
                         songs.Remove(song);
 
-                        foreach (IPlayList playlist in playlists)
+                        foreach (ISongCollection playlist in playlists)
                         {
                             if (playlist.Songs.Contains(song))
                             {
@@ -783,7 +783,7 @@ namespace Kri4oFy.Classes
                             GetStringsFromList(m.Groups[6].ToString())
                                 .ForEach(x =>
                                 {
-                                    IPlayList playList;
+                                    ISongCollection playList;
                                     int index = IndexOfPlaylist(x, playlists);
                                     if (index == -1)
                                     {
@@ -929,8 +929,8 @@ namespace Kri4oFy.Classes
                         }
                         else
                         {
-                            IPlayList playlist = playlists[playlistInd];
-                            //Console.WriteLine(m.Groups[2].ToString());
+                            ISongCollection playlist = playlists[playlistInd];
+                            
                             GetStringsFromList(m.Groups[2].ToString())
                                 .ForEach(x =>
                                 {
@@ -1021,7 +1021,6 @@ namespace Kri4oFy.Classes
 
         private void SaveInFile()
         {
-            //FileOutput oFile=new FileOutput(filePath);
             using (StreamWriter sw = new StreamWriter(filePath))
             {
                 StringBuilder sb = new StringBuilder();
@@ -1130,7 +1129,7 @@ namespace Kri4oFy.Classes
             return ind;
         }
 
-        private int IndexOfPlaylist(string playlistName, List<IPlayList> playlistsList)
+        private int IndexOfPlaylist(string playlistName, List<ISongCollection> playlistsList)
         {
             int ind = -1;
 

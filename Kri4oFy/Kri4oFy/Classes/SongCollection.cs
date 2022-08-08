@@ -90,7 +90,6 @@ namespace Kri4oFy.Classes
             if(songs.Contains(song))
             {
                 throw new ArgumentException("The song already exists in this collection");
-                //return false;
             }
             else
             {
@@ -119,28 +118,18 @@ namespace Kri4oFy.Classes
 
         public ISong RemoveSongByName(string songName)
         {
-            ISong song = null;
-
-            foreach(ISong songElement in Songs)
-            {
-                if(songElement.SongName == songName)
-                {
-                    song = songElement;
-
-                    break;
-                }
-            }
+            ISong song= (from s in songs
+                        where s.SongName == songName
+                        select s).SingleOrDefault();
 
             if(song==null)
             {
                 throw new ArgumentException("The song does not Exist in the current collection");
             }
-            else
-            {
-                songs.Remove(song);
 
-                return song;
-            }
+            songs.Remove(song);
+
+            return song;
         }
     }
 }

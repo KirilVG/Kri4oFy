@@ -13,7 +13,7 @@ namespace Kri4oFy
         static void Main(string[] args)
         {
             IInputOutput comunicator = new ConsoleIO();
-            ISpotifyApp Kri4oFy = new SpotifyApp(comunicator, "SppotifyData5.txt");
+            ISpotifyApp Kri4oFy = new SpotifyApp(comunicator, "SpotifyData.txt");
             Kri4oFy.Run();
         }
     }

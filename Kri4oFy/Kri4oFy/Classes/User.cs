@@ -55,14 +55,7 @@ namespace Kri4oFy.Classes
         //methods
         public bool CheckLogInInfo(string userame, string password)
         {
-            if (this.Username == userame && this.Password == password)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
+            return this.Username == userame && this.Password == password;
         }
 
         virtual public string getUserInformation()

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Kri4oFy.Classes
 {
-    internal class PlayList : SongCollection, IPlayList
+    internal class PlayList : SongCollection
     {
         /// <summary>
         /// constructor

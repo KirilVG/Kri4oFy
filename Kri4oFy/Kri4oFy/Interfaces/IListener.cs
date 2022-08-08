@@ -17,8 +17,7 @@ namespace Kri4oFy.Interfaces
 
         List<ISong> LikedSongs { get; }
 
-        List<IPlayList> Playlists { get; }
-
+        List<ISongCollection> Playlists { get; }
 
         string PrintPlayLists();
 
@@ -26,9 +25,9 @@ namespace Kri4oFy.Interfaces
 
         string PrintSongsFromPlayList(string playListName);
 
-        bool AddPlayList(IPlayList playList);
+        bool AddPlayList(ISongCollection playList);
 
-        IPlayList RemovePlayList(string playListName);
+        ISongCollection RemovePlayList(string playListName);
 
         bool AddSongToFavourites(ISong song);
 

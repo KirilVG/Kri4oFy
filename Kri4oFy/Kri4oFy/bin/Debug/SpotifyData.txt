@@ -1,6 +1,6 @@
-<user><Go6koy>(123456){listener}
-<user><Metallica>(TheBest){artist}
-<user><Stenli>(123456){artist}
+<user><Go6koy>(123456){listener}</user>
+<user><Metallica>(TheBest){artist}</user>
+<user><Stenli>(123456){artist}</user>
 
 <listener><Go6koy><Georgi D>[17/12/1996](genres: ['rock', 'metal'])(likedSongs: ['Nothing Else Matters', 'Obseben'])(playlists: ['Pesni'])</listener>
 
@@ -16,6 +16,4 @@
 <song><Sad but True>[5:24]</song>
 <song><Yarost>[4:17]</song>
 
-<playlists><Pesni>(songs: ['Obseben', 'Yarost'])</playlists>
-
-
+<playlist><Pesni>(songs: ['Obseben', 'Yarost'])</playlist>

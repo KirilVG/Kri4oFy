@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Kri4oFy.Interfaces
 {
-    internal interface IInputOutput: IInput,IOutput
+    internal interface IInputOutput: IInput, IOutput
     {
+
     }
 }
