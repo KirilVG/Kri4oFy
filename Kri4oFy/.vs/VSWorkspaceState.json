@@ -1,11 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Kri4oFy",
-    "\\Kri4oFy\\Classes",
-    "\\Kri4oFy\\Constants",
-    "\\Kri4oFy\\Interfaces"
+    "\\Kri4oFy"
   ],
-  "SelectedNode": "\\Kri4oFy\\Interfaces\\IListener.cs",
+  "SelectedNode": "\\Kri4oFy",
   "PreviewInSolutionExplorer": false
 }
