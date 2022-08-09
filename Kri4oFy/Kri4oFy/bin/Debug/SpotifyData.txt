@@ -16,4 +16,6 @@
 <song><Sad but True>[5:24]</song>
 <song><Yarost>[4:17]</song>
 
-<playlist><Pesni>(songs: ['Obseben', 'Yarost'])</playlist>
+<playlists><Pesni>(songs: ['Obseben', 'Yarost'])</playlists>
+
+
