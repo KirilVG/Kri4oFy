@@ -1,8 +1,12 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Kri4oFy"
+    "\\Kri4oFy",
+    "\\Kri4oFy\\bin",
+    "\\Kri4oFy\\bin\\Release",
+    "\\Kri4oFy\\Classes",
+    "\\packages"
   ],
-  "SelectedNode": "\\Kri4oFy",
+  "SelectedNode": "\\Kri4oFy\\bin\\Release",
   "PreviewInSolutionExplorer": false
 }

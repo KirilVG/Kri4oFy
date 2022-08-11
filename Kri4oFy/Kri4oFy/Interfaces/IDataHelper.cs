@@ -10,6 +10,6 @@ namespace Kri4oFy.Interfaces
     {
         ISpData TakeData();
 
-        void SaveData(ISpData Helper);
+        void SaveData(ISpData Helper, List<string> changes);
     }
 }

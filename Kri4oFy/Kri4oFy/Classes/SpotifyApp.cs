@@ -4,7 +4,7 @@ using System;
 using System.Linq;
 using System.Globalization;
 using Kri4oFy.Utils;
-
+using System.Collections.Generic;
 namespace Kri4oFy.Classes
 {
     internal class SpotifyApp : ISpotifyApp
@@ -17,7 +17,9 @@ namespace Kri4oFy.Classes
 
         IDataHelper dataHelper;
 
-        public SpotifyApp(IInputOutput Comunicator,IDataHelper dataHelper)
+        List<string> changes;
+
+        public SpotifyApp(IInputOutput Comunicator, IDataHelper dataHelper)
         {
             this.comunicator = Comunicator;
 
@@ -26,6 +28,8 @@ namespace Kri4oFy.Classes
             this.dataHelper = dataHelper;
 
             currentUser = null;
+
+            changes = new List<string>();
         }
 
         public void Run()
@@ -161,6 +165,8 @@ namespace Kri4oFy.Classes
                 {
                     ((IListener)currentUser).RemoveSongFromFavourites(data.Songs[songInd]);
 
+                    changes.Add($"[{VariableConstants.cngRemoveSongFromFav}] [{currentUser.Username}] [{songName}]");
+
                     comunicator.WriteLine(VariableConstants.successfulyRemovedSongMSG);
                 }
             }
@@ -191,6 +197,8 @@ namespace Kri4oFy.Classes
                 songName = comunicator.ReadLine();
 
                 ((IListener)currentUser).RemoveSongFromPlayList(playlistName, songName);
+
+                changes.Add($"[{VariableConstants.cngRemoveSongFromPlayL}] [{playlistName}] [{songName}]");
 
                 comunicator.WriteLine(VariableConstants.successfulyRemovedSongMSG);
             }
@@ -230,6 +238,8 @@ namespace Kri4oFy.Classes
                 {
                     ((IListener)currentUser).AddSongToPlayList(playlistName, data.Songs[songInd]);
 
+                    changes.Add($"[{VariableConstants.cngAddSongToPlayL}] [{playlistName}] [{songName}]");
+
                     comunicator.WriteLine(VariableConstants.successfulyAddedSongMSG);
                 }
             }
@@ -263,6 +273,8 @@ namespace Kri4oFy.Classes
                 {
                     ((IListener)currentUser).AddSongToFavourites(data.Songs[songInd]);
 
+                    changes.Add($"[{VariableConstants.cngAddSongToFav}] [{currentUser.Username}] [{songName}]");
+
                     comunicator.WriteLine(VariableConstants.successfulyAddedSongMSG);
                 }
             }
@@ -289,6 +301,8 @@ namespace Kri4oFy.Classes
                 ISongCollection playlist = ((IListener)currentUser).RemovePlayList(playlistName);
 
                 data.Playlists.Remove(playlist);
+
+                changes.Add($"[{VariableConstants.cngRemovePlaylist}] [{playlistName}]");
 
                 comunicator.WriteLine(VariableConstants.successfulyRemovedPlaylistMSG);
             }
@@ -317,6 +331,8 @@ namespace Kri4oFy.Classes
                 ((IListener)currentUser).AddPlayList(playlist);
 
                 data.Playlists.Add(playlist);
+
+                changes.Add($"[{VariableConstants.cngCreatePlaylist}] [{currentUser.Username}] [{playlistName}]");
 
                 comunicator.WriteLine(VariableConstants.successfulyAddedPlaylistMSG);
             }
@@ -388,42 +404,37 @@ namespace Kri4oFy.Classes
             }
             else
             {
-                try
+
+                string albumName;
+                comunicator.WriteLine(VariableConstants.inputAlbumNameMSG);
+                albumName = comunicator.ReadLine();
+
+                string songName;
+                comunicator.WriteLine(VariableConstants.inputSongNameMSG);
+                songName = comunicator.ReadLine();
+
+                ISong song = ((IArtist)currentUser).RemoveSongFromAlbum(albumName, songName);
+                data.Songs.Remove(song);
+
+                foreach (ISongCollection playlist in data.Playlists)
                 {
-                    string albumName;
-                    comunicator.WriteLine(VariableConstants.inputAlbumNameMSG);
-                    albumName = comunicator.ReadLine();
-
-                    string songName;
-                    comunicator.WriteLine(VariableConstants.inputSongNameMSG);
-                    songName = comunicator.ReadLine();
-
-                    ISong song = ((IArtist)currentUser).RemoveSongFromAlbum(albumName, songName);
-                    data.Songs.Remove(song);
-
-                    foreach (ISongCollection playlist in data.Playlists)
+                    if (playlist.Songs.Contains(song))
                     {
-                        if (playlist.Songs.Contains(song))
-                        {
-                            playlist.Songs.Remove(song);
-                        }
+                        playlist.Songs.Remove(song);
                     }
-
-                    foreach (IUser user in data.Users)
-                    {
-                        if (user.Type == UserTypeEnum.listener && ((IListener)user).LikedSongs.Contains(song))
-                        {
-                            ((IListener)user).LikedSongs.Remove(song);
-                        }
-                    }
-
-                    comunicator.WriteLine(VariableConstants.successfulyRemovedSongMSG);
-                }
-                catch (Exception e)
-                {
-                    comunicator.WriteLine(e.Message);
                 }
 
+                foreach (IUser user in data.Users)
+                {
+                    if (user.Type == UserTypeEnum.listener && ((IListener)user).LikedSongs.Contains(song))
+                    {
+                        ((IListener)user).LikedSongs.Remove(song);
+                    }
+                }
+
+                changes.Add($"[{VariableConstants.cngRemoveSongFromAlb}] [{songName}]");
+
+                comunicator.WriteLine(VariableConstants.successfulyRemovedSongMSG);
             }
         }
 
@@ -455,13 +466,16 @@ namespace Kri4oFy.Classes
 
                     comunicator.WriteLine(VariableConstants.inputSonglengthMSG);
 
-                    int[] lengthinp = comunicator.ReadLine().Split(':').Select(x => int.Parse(x)).ToArray();
+                    string lenstr = comunicator.ReadLine();
+                    int[] lengthinp = lenstr.Split(':').Select(x => int.Parse(x)).ToArray();
                     int length = lengthinp[0] * 60 + lengthinp[1];
                     song.Time = length;
 
                     ((IArtist)currentUser).AddSongToAlbum(albumName, song);
 
                     data.Songs.Add(song);
+
+                    changes.Add($"[{VariableConstants.cngAddSongToAlbum}] [{albumName}] [{songName}] [{length}]");
 
                     comunicator.WriteLine(VariableConstants.successfulyAddedSongMSG);
 
@@ -524,6 +538,8 @@ namespace Kri4oFy.Classes
 
                     data.Albums.Remove(album);
 
+                    changes.Add($"[{VariableConstants.cngRemoveAlb}] [{albumName}]");
+
                     comunicator.WriteLine(VariableConstants.successfulyRemovedAlbumMSG);
                 }
             }
@@ -552,14 +568,18 @@ namespace Kri4oFy.Classes
                     IAlbum album = new Album(albumName, (IArtist)currentUser);
 
                     comunicator.WriteLine(VariableConstants.inputYearMSG);
+
                     album.DateOfCreation = DateTime.ParseExact($"01/01/{comunicator.ReadLine()}", "dd/mm/yyyy", CultureInfo.InvariantCulture);
 
                     comunicator.WriteLine(VariableConstants.inputGenreMSG);
+
                     album.Genre = (GenreEnum)Enum.Parse(typeof(GenreEnum), comunicator.ReadLine());
 
                     ((IArtist)currentUser).AddAlbum(album);
 
                     data.Albums.Add(album);
+
+                    changes.Add($"[{VariableConstants.cngAddAlbum}] [{currentUser.Username}] [{albumName}] [{album.DateOfCreation.Year}] [{album.Genre}]");
 
                     comunicator.WriteLine(VariableConstants.successfulyAddedAlbumMSG);
                 }
@@ -677,12 +697,12 @@ namespace Kri4oFy.Classes
 
         private void PreviewPossibleCommands()
         {
-            if(currentUser==null)
+            if (currentUser == null)
             {
                 comunicator.WriteLine(VariableConstants.logInCommand);
                 comunicator.WriteLine(VariableConstants.saveCommand);
             }
-            else if(currentUser.Type==UserTypeEnum.artist)
+            else if (currentUser.Type == UserTypeEnum.artist)
             {
                 comunicator.WriteLine(VariableConstants.printInfoCommand);
                 comunicator.WriteLine(VariableConstants.printAlbumsCommand);
@@ -694,7 +714,7 @@ namespace Kri4oFy.Classes
                 comunicator.WriteLine(VariableConstants.logOutCommand);
                 comunicator.WriteLine(VariableConstants.saveCommand);
             }
-            else if(currentUser.Type==UserTypeEnum.listener)
+            else if (currentUser.Type == UserTypeEnum.listener)
             {
                 comunicator.WriteLine(VariableConstants.printInfoCommand);
                 comunicator.WriteLine(VariableConstants.printPlaylistsCommand);
@@ -710,15 +730,15 @@ namespace Kri4oFy.Classes
                 comunicator.WriteLine(VariableConstants.saveCommand);
             }
         }
-        
+
         private void TakeData()
         {
-            data=dataHelper.TakeData();
+            data = dataHelper.TakeData();
         }
 
         private void SaveData()
         {
-            dataHelper.SaveData(data);
+            dataHelper.SaveData(data, changes);
         }
     }
 }

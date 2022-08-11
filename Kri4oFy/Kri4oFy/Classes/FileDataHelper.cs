@@ -16,21 +16,28 @@ namespace Kri4oFy.Classes
     {
         string filePath;
 
-        public void SaveData(ISpData data)
+        public void SaveData(ISpData data, List<string> changes)
         {
             using (StreamWriter sw = new StreamWriter(filePath))
             {
                 StringBuilder sb = new StringBuilder();
 
                 sb.Append(FileStringUsers(data));
+
                 sb.Append(FileStringListeners(data));
+
                 sb.Append(FileStringArtists(data));
+
                 sb.Append(FileStringAlbums(data));
+
                 sb.Append(FileStringSongs(data));
+
                 sb.Append(FileStringPlaylists(data));
 
                 sw.WriteLine(sb);
             }
+
+            changes.Clear();
         }
 
         private string FileStringUsers(ISpData data)

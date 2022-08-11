@@ -14,7 +14,8 @@ namespace Kri4oFy
         {
             IInputOutput comunicator = new ConsoleIO();
 
-            IDataHelper helper = new FileDataHelper("SpotifyData.txt");
+            //IDataHelper helper = new FileDataHelper("SpotifyData.txt");
+            IDataHelper helper = new DBDataHelper("Kri4oFy.Properties.Settings.SpotiFyConnectionString");
 
             ISpotifyApp Kri4oFy = new SpotifyApp(comunicator, helper);
             Kri4oFy.Run();
