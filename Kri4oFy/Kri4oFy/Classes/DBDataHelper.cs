@@ -26,7 +26,7 @@ namespace Kri4oFy.Classes
 
         public void SaveData(ISpData data, List<string> changes)
         {
-            foreach(var change in changes)
+            foreach (var change in changes)
             {
                 List<string> tokens = new List<string>();
 
@@ -35,7 +35,7 @@ namespace Kri4oFy.Classes
                     tokens.Add(match.Groups[1].ToString());
                 }
 
-                switch(tokens[0])
+                switch (tokens[0])
                 {
                     case VariableConstants.cngAddAlbum:
                         ChangeAddAlbum(tokens);
@@ -74,9 +74,35 @@ namespace Kri4oFy.Classes
             changes.Clear();
         }
 
+        List<string> GetSongNamesFromAlbum(int albumId)
+        {
+            List<string> songsTitles = new List<string>();
+
+            string querry = $"select Songs.Name from Songs where Songs.AlbumId={albumId}";
+
+            using (connection = new SqlConnection(connectionString))
+            using (SqlCommand command = new SqlCommand(querry, connection))
+            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
+            {
+                connection.Open();
+
+                SqlDataReader dataReader = command.ExecuteReader();
+
+                while (dataReader.Read())
+                {
+                    songsTitles.Add(dataReader.GetValue(0).ToString());
+                }
+
+                dataReader.Close();
+            }
+
+            return songsTitles;
+        }
+
         void ExecuteQuerry(string querry)
         {
             using (connection = new SqlConnection(connectionString))
+
             using (SqlCommand command = new SqlCommand(querry, connection))
             {
                 connection.Open();
@@ -85,11 +111,9 @@ namespace Kri4oFy.Classes
             }
         }
 
-        private int GetUserId(string Username)
+        int ExecuteSearchIndexQuerry(string querry)
         {
-            int userId = 0;
-
-            string querry = $"select * from Users where Username = '{Username}';";
+            int Id = 0;
 
             using (connection = new SqlConnection(connectionString))
 
@@ -103,102 +127,45 @@ namespace Kri4oFy.Classes
 
                 while (dataReader.Read())
                 {
-                    userId = int.Parse(dataReader.GetValue(0).ToString());
+                    Id = int.Parse(dataReader.GetValue(0).ToString());
                 }
             }
-            return userId;
+            return Id;
+        }
+
+        private int GetUserId(string Username)
+        {
+            string querry = $"select * from Users where Username = '{Username}';";
+
+            return ExecuteSearchIndexQuerry(querry);
         }
 
         private int GetSongId(string SongName)
         {
-            int songId = 0;
-
             string querry = $"select * from Songs where Name = '{SongName}';";
 
-            using (connection = new SqlConnection(connectionString))
-
-            using (SqlCommand command = new SqlCommand(querry, connection))
-            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
-            {
-                connection.Open();
-
-                SqlDataReader dataReader = command.ExecuteReader();
-
-                while (dataReader.Read())
-                {
-                    songId = int.Parse(dataReader.GetValue(0).ToString());
-                }
-            }
-            return songId;
+            return ExecuteSearchIndexQuerry(querry);
         }
 
         private int GetPlaylistId(string Playlistname)
         {
-            int PlaylistId = 0;
-
             string querry = $"select * from Playlists where PlaylistName = '{Playlistname}';";
 
-            using (connection = new SqlConnection(connectionString))
-
-            using (SqlCommand command = new SqlCommand(querry, connection))
-            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
-            {
-                connection.Open();
-
-                SqlDataReader dataReader = command.ExecuteReader();
-
-                while (dataReader.Read())
-                {
-                    PlaylistId = int.Parse(dataReader.GetValue(0).ToString());
-                }
-            }
-            return PlaylistId;
+            return ExecuteSearchIndexQuerry(querry);
         }
 
         private int GetGenreId(string GenreName)
         {
-            int GenreId = 0;
-
             string querry = $"select * from Genres where Name = '{GenreName}';";
 
-            using (connection = new SqlConnection(connectionString))
-
-            using (SqlCommand command = new SqlCommand(querry, connection))
-            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
-            {
-                connection.Open();
-
-                SqlDataReader dataReader = command.ExecuteReader();
-
-                while (dataReader.Read())
-                {
-                    GenreId = int.Parse(dataReader.GetValue(0).ToString());
-                }
-            }
-            return GenreId;
+            return ExecuteSearchIndexQuerry(querry);
         }
 
         private int GetAlbumId(string AlbumName)
         {
-            int AlbumId = 0;
-
             string querry = $"select * from Albums where AlbumName = '{AlbumName}';";
 
-            using (connection = new SqlConnection(connectionString))
-
-            using (SqlCommand command = new SqlCommand(querry, connection))
-            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
-            {
-                connection.Open();
-
-                SqlDataReader dataReader = command.ExecuteReader();
-
-                while (dataReader.Read())
-                {
-                    AlbumId = int.Parse(dataReader.GetValue(0).ToString());
-                }
-            }
-            return AlbumId;
+            return ExecuteSearchIndexQuerry(querry);
         }
 
         private void DeleteSong(string Title)
@@ -222,35 +189,18 @@ namespace Kri4oFy.Classes
         {
             int albumId = GetAlbumId(tokens[1]);
 
-            List<string> songsTitles=new List<string>();
+            List<string> songsTitles = GetSongNamesFromAlbum(albumId);
 
-            string querry = $"select Songs.Name from Songs where Songs.AlbumId={albumId}";
-
-            using (connection = new SqlConnection(connectionString))
-            using (SqlCommand command = new SqlCommand(querry, connection))
-            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
-            {
-                connection.Open();
-
-                SqlDataReader dataReader = command.ExecuteReader();
-
-                while (dataReader.Read())
-                {
-                    songsTitles.Add(dataReader.GetValue(0).ToString());
-                }
-
-                dataReader.Close();
-            }
-
-            foreach(string songTitle in songsTitles)
+            foreach (string songTitle in songsTitles)
             {
                 DeleteSong(songTitle);
             }
 
-            querry = $"delete from Albums where Id={albumId}";
+            string querry = $"delete from Albums where Id={albumId}";
 
             ExecuteQuerry(querry);
         }
+
         private void ChangeRemoveSongFromAlb(List<string> tokens)
         {
             DeleteSong(tokens[1]);
@@ -260,7 +210,7 @@ namespace Kri4oFy.Classes
         {
             int albumId = GetAlbumId(tokens[1]);
 
-            int time=int.Parse(tokens[3]);
+            int time = int.Parse(tokens[3]);
 
             string querry = $"insert into Songs values('{tokens[2]}','00:{time / 60}:{time % 60:D2}',{albumId})";
 
@@ -347,7 +297,7 @@ namespace Kri4oFy.Classes
         {
             int userId = GetUserId(tokens[1]);
 
-            int songId=GetSongId(tokens[2]);
+            int songId = GetSongId(tokens[2]);
 
             string querry = $"insert into LikedSongsByListener values({userId},{songId});";
 
@@ -370,309 +320,316 @@ namespace Kri4oFy.Classes
 
         private void TakeSongs(ISpData data)
         {
-            string querry = "select Songs.Name, Songs.Duration, Albums.AlbumName from Songs join Albums on Songs.AlbumId = Albums.Id";
+            string querry = "select Songs.Name, Songs.Duration, Albums.AlbumName " +
+                "from Songs " +
+                "join Albums " +
+                "on Songs.AlbumId = Albums.Id";
 
-            using (connection = new SqlConnection(connectionString))
-            using (SqlCommand command = new SqlCommand(querry, connection))
-            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
-            {
-                connection.Open();
+            ExecuteDataReader(ReadSongs, querry, data);
 
-                SqlDataReader dataReader = command.ExecuteReader();
+            querry = "select Songs.Name, Users.Username " +
+                "from Songs " +
+                "join LikedSongsByListener " +
+                "on Songs.Id = LikedSongsByListener.SongId " +
+                "join Users " +
+                "on LikedSongsByListener.ListenerId = Users.Id;";
 
-                while (dataReader.Read())
-                {
-                    int albumInd = Methods.IndexOfAlbum(dataReader.GetValue(2).ToString(), data.Albums);
+            ExecuteDataReader(ReadFavouriteSongs, querry, data);
 
-                    if (albumInd == -1)
-                    {
-                        throw new InvalidOperationException("An album with this Id does not exist");
-                    }
+            querry = "select Songs.Name, Playlists.PlaylistName " +
+                "from Songs " +
+                "join SongsInPlaylist " +
+                "on Songs.Id=SongsInPlaylist.SongId " +
+                "join Playlists " +
+                "on SongsInPlaylist.PlaylistId = Playlists.Id;";
 
-                    if (Methods.IndexOfSong(dataReader.GetValue(0).ToString(), data.Songs) != -1)
-                    {
-                        throw new InvalidOperationException("A song with this name already exists");
-                    }
-
-                    ISong song = new Song(dataReader.GetValue(0).ToString(), (int)TimeSpan.Parse(dataReader.GetValue(1).ToString()).TotalSeconds, data.Albums[albumInd]);
-
-                    data.Songs.Add(song);
-
-                    data.Albums[albumInd].AddSong(song);
-                }
-
-                dataReader.Close();
-            }
-
-            querry = "select Songs.Name, Users.Username from Songs join LikedSongsByListener on Songs.Id = LikedSongsByListener.SongId join Users on LikedSongsByListener.ListenerId = Users.Id";
-
-            using (connection = new SqlConnection(connectionString))
-            using (SqlCommand command = new SqlCommand(querry, connection))
-            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
-            {
-                connection.Open();
-
-                SqlDataReader dataReader = command.ExecuteReader();
-
-                while (dataReader.Read())
-                {
-                    int UserInd = Methods.IndexOfUser(dataReader.GetValue(1).ToString(), data.Users);
-
-                    if (UserInd == -1)
-                    {
-                        throw new InvalidOperationException("This user does Not exist");
-                    }
-
-                    int songInd = Methods.IndexOfSong(dataReader.GetValue(0).ToString(), data.Songs);
-
-                    if (songInd == -1)
-                    {
-                        throw new InvalidOperationException("This song does not exist");
-                    }
-
-                    ((IListener)data.Users[UserInd]).AddSongToFavourites(data.Songs[songInd]);
-                }
-
-                dataReader.Close();
-            }
-
-            querry = "select Songs.Name, Playlists.PlaylistName from Songs join SongsInPlaylist on Songs.Id=SongsInPlaylist.SongId join Playlists on SongsInPlaylist.PlaylistId = Playlists.Id";
-
-            using (connection = new SqlConnection(connectionString))
-            using (SqlCommand command = new SqlCommand(querry, connection))
-            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
-            {
-                connection.Open();
-
-                SqlDataReader dataReader = command.ExecuteReader();
-
-                while (dataReader.Read())
-                {
-                    int songInd = Methods.IndexOfSong(dataReader.GetValue(0).ToString(), data.Songs);
-
-                    if (songInd == -1)
-                    {
-                        throw new InvalidOperationException("This Song does Not exist");
-                    }
-
-                    int playlistInd = Methods.IndexOfPlaylist(dataReader.GetValue(1).ToString(), data.Playlists);
-
-                    if (playlistInd == -1)
-                    {
-                        throw new InvalidOperationException("This song does not exist");
-                    }
-
-                    data.Playlists[playlistInd].AddSong(data.Songs[songInd]);
-                }
-
-                dataReader.Close();
-            }
+            ExecuteDataReader(ReadSongsInPlaylist, querry, data);
         }
 
         private void TakePlaylists(ISpData data)
         {
-            string querry = "select Playlists.PlaylistName, Users.Username from Playlists join PlaylistByListener on Playlists.Id=PlaylistByListener.PlaylistId join Users on PlaylistByListener.ListenerId=Users.Id";
+            string querry = "select Playlists.PlaylistName, Users.Username " +
+                "from Playlists " +
+                "join PlaylistByListener " +
+                "on Playlists.Id=PlaylistByListener.PlaylistId " +
+                "join Users " +
+                "on PlaylistByListener.ListenerId=Users.Id;";
 
-            using (connection = new SqlConnection(connectionString))
-            using (SqlCommand command = new SqlCommand(querry, connection))
-            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
-            {
-                connection.Open();
-
-                SqlDataReader dataReader = command.ExecuteReader();
-
-                while (dataReader.Read())
-                {
-                    int listenerInd = Methods.IndexOfUser(dataReader.GetValue(1).ToString(), data.Users);
-
-                    if (listenerInd == -1)
-                    {
-                        throw new InvalidOperationException("The listener responsible for this playlist does not exist");
-                    }
-
-                    if (Methods.IndexOfPlaylist(dataReader.GetValue(0).ToString(), data.Playlists) != -1)
-                    {
-                        throw new InvalidOperationException("A playlist with this name already exists");
-                    }
-
-                    ISongCollection newPlaylist = new PlayList(dataReader.GetValue(0).ToString());
-
-                    data.Playlists.Add(newPlaylist);
-
-                    ((IListener)data.Users[listenerInd]).AddPlayList(newPlaylist);
-                }
-
-                dataReader.Close();
-            }
+            ExecuteDataReader(ReadPlaylists, querry, data);
         }
 
         private void TakeAlbums(ISpData data)
         {
-            string querry = "select Albums.AlbumName, Albums.DateOfCreation, Genres.Name, Users.Username from Albums join Users on Albums.ArtistID = Users.Id join Genres on Albums.GenreID = Genres.Id";
+            string querry = "select Albums.AlbumName, Albums.DateOfCreation, Genres.Name, Users.Username " +
+                "from Albums " +
+                "join Users " +
+                "on Albums.ArtistID = Users.Id " +
+                "join Genres " +
+                "on Albums.GenreID = Genres.Id;";
 
-            using (connection = new SqlConnection(connectionString))
-            using (SqlCommand command = new SqlCommand(querry, connection))
-            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
-            {
-                connection.Open();
-
-                SqlDataReader dataReader = command.ExecuteReader();
-
-                while (dataReader.Read())
-                {
-                    int artistInd = Methods.IndexOfUser(dataReader.GetValue(3).ToString(), data.Users);
-
-                    if (artistInd == -1)
-                    {
-                        throw new InvalidOperationException("The artist responsible for this album does not exist");
-                    }
-
-                    if (Methods.IndexOfPlaylist(dataReader.GetValue(0).ToString(), data.Playlists) != -1)
-                    {
-                        throw new InvalidOperationException("An album with this name exists");
-                    }
-
-                    IAlbum newAlbum = new Album(dataReader.GetValue(0).ToString(), (IArtist)data.Users[artistInd]);
-
-                    newAlbum.DateOfCreation = DateTime.ParseExact($"01/01/{dataReader.GetValue(1)}", "dd/mm/yyyy", CultureInfo.InvariantCulture);
-
-                    newAlbum.Genre = (GenreEnum)Enum.Parse(typeof(GenreEnum), dataReader.GetValue(2).ToString());
-
-                    data.Albums.Add(newAlbum);
-
-                    ((IArtist)data.Users[artistInd]).AddAlbum(newAlbum);
-                }
-
-                dataReader.Close();
-            }
+            ExecuteDataReader(ReadAlbums, querry, data);
         }
 
         private void TakeListeners(ISpData data)
         {
-            string querry = "select * from Users join Listeners on Users.Id = Listeners.UserId";
+            string querry = "select * " +
+                "from Users " +
+                "join Listeners " +
+                "on Users.Id = Listeners.UserId;";
 
-            using (connection = new SqlConnection(connectionString))
-            using (SqlCommand command = new SqlCommand(querry, connection))
-            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
-            {
-                connection.Open();
+            ExecuteDataReader(ReadListeners, querry, data);
 
-                SqlDataReader dataReader = command.ExecuteReader();
+            querry = "select Users.Username, Genres.Name " +
+                "from Users " +
+                "join ListenerGenres " +
+                "on Users.Id = ListenerGenres.ListenerId " +
+                "join Genres " +
+                "on ListenerGenres.GenreId=Genres.Id;";
 
-                while (dataReader.Read())
-                {
-                    int listenerInd = Methods.IndexOfUser(dataReader.GetValue(1).ToString(), data.Users);
-
-                    if (listenerInd == -1)
-                    {
-                        throw new InvalidOperationException("This artist does not belong to the Users' list.");
-                    }
-
-                    IListener listener = new Listener((User)data.Users[listenerInd]);
-
-                    data.Users[listenerInd] = listener;
-
-                    listener.FullName = dataReader.GetValue(6).ToString();
-
-                    listener.DateOfBirth = DateTime.Parse(dataReader.GetValue(5).ToString());
-                }
-
-                dataReader.Close();
-            }
-            //add genres
-            querry = "select Users.Username, Genres.Name from Users join ListenerGenres on Users.Id = ListenerGenres.ListenerId join Genres on ListenerGenres.GenreId=Genres.Id";
-
-            using (connection = new SqlConnection(connectionString))
-            using (SqlCommand command = new SqlCommand(querry, connection))
-            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
-            {
-                connection.Open();
-
-                SqlDataReader dataReader = command.ExecuteReader();
-
-                while (dataReader.Read())
-                {
-                    int listenerInd = Methods.IndexOfUser(dataReader.GetValue(0).ToString(), data.Users);
-
-                    if (listenerInd == -1)
-                    {
-                        throw new InvalidOperationException("A listener is missing from definition.");
-                    }
-
-                    IListener listener = (IListener)data.Users[listenerInd];
-
-                    listener.Genres.Add((GenreEnum)Enum.Parse(typeof(GenreEnum), dataReader.GetValue(1).ToString()));
-                }
-
-                dataReader.Close();
-            }
+            ExecuteDataReader(AddGenresToListeners, querry, data);
         }
 
         private void TakeArtists(ISpData data)
         {
-            string querry = "select * from Users join Artists on Users.Id = Artists.UserId";
+            string querry = "select * " +
+                "from Users " +
+                "join Artists " +
+                "on Users.Id = Artists.UserId;";
 
-            using (connection = new SqlConnection(connectionString))
-            using (SqlCommand command = new SqlCommand(querry, connection))
-            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
-            {
-                connection.Open();
+            ExecuteDataReader(ReadArtists, querry, data);
 
-                SqlDataReader dataReader = command.ExecuteReader();
+            querry = "select Users.Username, Genres.Name " +
+                "from Users " +
+                "join ArtistGenres " +
+                "on Users.Id = ArtistGenres.ArtistId " +
+                "join Genres " +
+                "on ArtistGenres.GenreId=Genres.Id;";
 
-                while (dataReader.Read())
-                {
-                    int artistInd = Methods.IndexOfUser(dataReader.GetValue(1).ToString(), data.Users);
-
-                    if (artistInd == -1)
-                    {
-                        throw new InvalidOperationException("This artist does not belong to the Users' list.");
-                    }
-
-                    IArtist artist = new Artist((User)data.Users[artistInd]);
-
-                    data.Users[artistInd] = artist;
-
-                    artist.FullName = dataReader.GetValue(6).ToString();
-
-                    artist.DateOfBirth = DateTime.Parse(dataReader.GetValue(5).ToString());
-                }
-
-                dataReader.Close();
-            }
-
-            querry = "select Users.Username, Genres.Name from Users join ArtistGenres on Users.Id = ArtistGenres.ArtistId join Genres on ArtistGenres.GenreId=Genres.Id";
-
-            using (connection = new SqlConnection(connectionString))
-            using (SqlCommand command = new SqlCommand(querry, connection))
-            using (SqlDataAdapter adapter = new SqlDataAdapter(command))
-            {
-                connection.Open();
-
-                SqlDataReader dataReader = command.ExecuteReader();
-
-                while (dataReader.Read())
-                {
-                    int artistInd = Methods.IndexOfUser(dataReader.GetValue(0).ToString(), data.Users);
-
-                    if (artistInd == -1)
-                    {
-                        throw new InvalidOperationException("An artist is missing from definition.");
-                    }
-
-                    IArtist artist = (IArtist)data.Users[artistInd];
-
-                    artist.Genres.Add((GenreEnum)Enum.Parse(typeof(GenreEnum), dataReader.GetValue(1).ToString()));
-                }
-
-                dataReader.Close();
-            }
+            ExecuteDataReader(AddGenresToArtists, querry, data);
         }
 
         private void TakeUsers(ISpData data)
         {
-            string querry = "select * from Users;";
+            string querry = "select * " +
+                "from Users;";
 
+            ExecuteDataReader(ReadUsers, querry, data);
+        }
+
+        private void ReadSongs(SqlDataReader dataReader, ISpData data)
+        {
+            while (dataReader.Read())
+            {
+                int albumIndex = Methods.IndexOfAlbum(dataReader.GetValue(2).ToString(), data.Albums);
+
+                if (albumIndex == -1)
+                {
+                    throw new InvalidOperationException("An album with this Id does not exist");
+                }
+
+                if (Methods.IndexOfSong(dataReader.GetValue(0).ToString(), data.Songs) != -1)
+                {
+                    throw new InvalidOperationException("A song with this name already exists");
+                }
+
+                ISong song = new Song(
+                    dataReader.GetValue(0).ToString(),
+                    (int)TimeSpan.Parse(dataReader.GetValue(1).ToString()).TotalSeconds,
+                    data.Albums[albumIndex]);
+
+                data.Songs.Add(song);
+
+                data.Albums[albumIndex].AddSong(song);
+            }
+        }
+
+        private void ReadFavouriteSongs(SqlDataReader dataReader, ISpData data)
+        {
+            while (dataReader.Read())
+            {
+                int UserIndex = Methods.IndexOfUser(dataReader.GetValue(1).ToString(), data.Users);
+
+                if (UserIndex == -1)
+                {
+                    throw new InvalidOperationException("This user does Not exist");
+                }
+
+                int songIndex = Methods.IndexOfSong(dataReader.GetValue(0).ToString(), data.Songs);
+
+                if (songIndex == -1)
+                {
+                    throw new InvalidOperationException("This song does not exist");
+                }
+
+                   ((IListener)data.Users[UserIndex]).AddSongToFavourites(data.Songs[songIndex]);
+            }
+        }
+
+        private void ReadSongsInPlaylist(SqlDataReader dataReader, ISpData data)
+        {
+            while (dataReader.Read())
+            {
+                int SongIndex = Methods.IndexOfSong(dataReader.GetValue(0).ToString(), data.Songs);
+
+                if (SongIndex == -1)
+                {
+                    throw new InvalidOperationException("This Song does Not exist");
+                }
+
+                int playlistIndex = Methods.IndexOfPlaylist(dataReader.GetValue(1).ToString(), data.Playlists);
+
+                if (playlistIndex == -1)
+                {
+                    throw new InvalidOperationException("This song does not exist");
+                }
+
+                data.Playlists[playlistIndex].AddSong(data.Songs[SongIndex]);
+            }
+        }
+
+        private void ReadPlaylists(SqlDataReader dataReader, ISpData data)
+        {
+            while (dataReader.Read())
+            {
+                int listenerIndex = Methods.IndexOfUser(dataReader.GetValue(1).ToString(), data.Users);
+
+                if (listenerIndex == -1)
+                {
+                    throw new InvalidOperationException("The listener responsible for this playlist does not exist");
+                }
+
+                if (Methods.IndexOfPlaylist(dataReader.GetValue(0).ToString(), data.Playlists) != -1)
+                {
+                    throw new InvalidOperationException("A playlist with this name already exists");
+                }
+
+                ISongCollection newPlaylist = new PlayList(dataReader.GetValue(0).ToString());
+
+                data.Playlists.Add(newPlaylist);
+
+                ((IListener)data.Users[listenerIndex]).AddPlayList(newPlaylist);
+            }
+        }
+
+        private void ReadAlbums(SqlDataReader dataReader, ISpData data)
+        {
+            while (dataReader.Read())
+            {
+                int artistIndex = Methods.IndexOfUser(dataReader.GetValue(3).ToString(), data.Users);
+
+                if (artistIndex == -1)
+                {
+                    throw new InvalidOperationException("The artist responsible for this album does not exist");
+                }
+
+                if (Methods.IndexOfPlaylist(dataReader.GetValue(0).ToString(), data.Playlists) != -1)
+                {
+                    throw new InvalidOperationException("An album with this name exists");
+                }
+
+                IAlbum newAlbum = new Album(dataReader.GetValue(0).ToString(), (IArtist)data.Users[artistIndex]);
+
+                newAlbum.DateOfCreation = DateTime.ParseExact(VariableConstants.datetimeYearPrefix + dataReader.GetValue(1).ToString(), VariableConstants.datetimePattern, CultureInfo.InvariantCulture);
+
+                newAlbum.Genre = (GenreEnum)Enum.Parse(typeof(GenreEnum), dataReader.GetValue(2).ToString());
+
+                data.Albums.Add(newAlbum);
+
+                ((IArtist)data.Users[artistIndex]).AddAlbum(newAlbum);
+            }
+        }
+
+        private void ReadListeners(SqlDataReader dataReader, ISpData data)
+        {
+            while (dataReader.Read())
+            {
+                int listenerIndex = Methods.IndexOfUser(dataReader.GetValue(1).ToString(), data.Users);
+
+                if (listenerIndex == -1)
+                {
+                    throw new InvalidOperationException("This artist does not belong to the Users' list.");
+                }
+
+                IListener listener = new Listener((User)data.Users[listenerIndex]);
+
+                data.Users[listenerIndex] = listener;
+
+                listener.FullName = dataReader.GetValue(6).ToString();
+
+                listener.DateOfBirth = DateTime.Parse(dataReader.GetValue(5).ToString());
+            }
+        }
+
+        private void AddGenresToListeners(SqlDataReader dataReader, ISpData data)
+        {
+            while (dataReader.Read())
+            {
+                int listenerIndex = Methods.IndexOfUser(dataReader.GetValue(0).ToString(), data.Users);
+
+                if (listenerIndex == -1)
+                {
+                    throw new InvalidOperationException("A listener is missing from definition.");
+                }
+
+                IListener listener = (IListener)data.Users[listenerIndex];
+
+                listener.Genres.Add((GenreEnum)Enum.Parse(typeof(GenreEnum), dataReader.GetValue(1).ToString()));
+            }
+        }
+
+        private void ReadArtists(SqlDataReader dataReader, ISpData data)
+        {
+            while (dataReader.Read())
+            {
+                int artistIndex = Methods.IndexOfUser(dataReader.GetValue(1).ToString(), data.Users);
+
+                if (artistIndex == -1)
+                {
+                    throw new InvalidOperationException("This artist does not belong to the Users' list.");
+                }
+
+                IArtist artist = new Artist((User)data.Users[artistIndex]);
+
+                data.Users[artistIndex] = artist;
+
+                artist.FullName = dataReader.GetValue(6).ToString();
+
+                artist.DateOfBirth = DateTime.Parse(dataReader.GetValue(5).ToString());
+            }
+        }
+
+        private void AddGenresToArtists(SqlDataReader dataReader, ISpData data)
+        {
+            while (dataReader.Read())
+            {
+                int artistIndex = Methods.IndexOfUser(dataReader.GetValue(0).ToString(), data.Users);
+
+                if (artistIndex == -1)
+                {
+                    throw new InvalidOperationException("An artist is missing from definition.");
+                }
+
+                IArtist artist = (IArtist)data.Users[artistIndex];
+
+                artist.Genres.Add((GenreEnum)Enum.Parse(typeof(GenreEnum), dataReader.GetValue(1).ToString()));
+            }
+        }
+
+        private void ReadUsers(SqlDataReader dataReader, ISpData data)
+        {
+            while (dataReader.Read())
+            {
+                IUser newUser = new User(
+                    dataReader.GetValue(1).ToString(),
+                    dataReader.GetValue(2).ToString(),
+                    (UserTypeEnum)Enum.Parse(typeof(UserTypeEnum), dataReader.GetValue(3).ToString()));
+
+                data.Users.Add(newUser);
+            }
+        }
+
+        private void ExecuteDataReader(Action<SqlDataReader, ISpData> functionToPass, string querry, ISpData data)
+        {
             using (connection = new SqlConnection(connectionString))
             using (SqlCommand command = new SqlCommand(querry, connection))
             using (SqlDataAdapter adapter = new SqlDataAdapter(command))
@@ -681,12 +638,7 @@ namespace Kri4oFy.Classes
 
                 SqlDataReader dataReader = command.ExecuteReader();
 
-                while (dataReader.Read())
-                {
-                    IUser newUser = new User(dataReader.GetValue(1).ToString(), dataReader.GetValue(2).ToString(), (UserTypeEnum)Enum.Parse(typeof(UserTypeEnum), dataReader.GetValue(3).ToString()));
-
-                    data.Users.Add(newUser);
-                }
+                functionToPass(dataReader, data);
 
                 dataReader.Close();
             }

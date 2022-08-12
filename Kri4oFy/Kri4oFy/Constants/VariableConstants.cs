@@ -88,5 +88,8 @@ namespace Kri4oFy.Constants
         public const string cngAddSongToAlbum = "AddSongToAlbum";
         public const string cngRemoveAlb = "RemoveAlb";
         public const string cngAddAlbum = "AddAlbum";
+
+        public const string datetimePattern = "dd/mm/yyyy";
+        public const string datetimeYearPrefix = "01/01/";
     }
 }
