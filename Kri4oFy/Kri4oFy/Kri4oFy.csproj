@@ -12,6 +12,21 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,6 +49,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -46,12 +62,15 @@
     <Compile Include="Classes\Album.cs" />
     <Compile Include="Classes\Artist.cs" />
     <Compile Include="Classes\CnsoleIO.cs" />
+    <Compile Include="Classes\DBDataHelper.cs" />
+    <Compile Include="Classes\FileDataHelper.cs" />
     <Compile Include="Classes\FileInput.cs" />
     <Compile Include="Classes\FileOutput.cs" />
     <Compile Include="Classes\Listener.cs" />
     <Compile Include="Classes\PlayList.cs" />
     <Compile Include="Classes\Song.cs" />
     <Compile Include="Classes\SongCollection.cs" />
+    <Compile Include="Classes\SpData.cs" />
     <Compile Include="Classes\SpotifyApp.cs" />
     <Compile Include="Classes\User.cs" />
     <Compile Include="Constants\GenreEnum.cs" />
@@ -60,22 +79,69 @@
     <Compile Include="Constants\VariableConstants.cs" />
     <Compile Include="Interfaces\IAlbum.cs" />
     <Compile Include="Interfaces\IArtist.cs" />
+    <Compile Include="Interfaces\IDataHelper.cs" />
     <Compile Include="Interfaces\IInputOutput.cs" />
     <Compile Include="Interfaces\IListener.cs" />
     <Compile Include="Interfaces\IInput.cs" />
     <Compile Include="Interfaces\IOutput.cs" />
     <Compile Include="Interfaces\ISong.cs" />
     <Compile Include="Interfaces\ISongCollection.cs" />
+    <Compile Include="Interfaces\ISpData.cs" />
     <Compile Include="Interfaces\ISpotifyApp.cs" />
     <Compile Include="Interfaces\IUser.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="SpotiFyDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>SpotiFyDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Utils\Methods.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="SpotiFyDataSet.xsc">
+      <DependentUpon>SpotiFyDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="SpotiFyDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>SpotiFyDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="SpotiFyDataSet.xss">
+      <DependentUpon>SpotiFyDataSet.xsd</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="SpotiFy.mdf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SpotiFy_log.ldf">
+      <DependentUpon>SpotiFy.mdf</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Utils\" />
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

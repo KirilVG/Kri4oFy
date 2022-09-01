@@ -14,3 +14,5 @@ C:\Users\kiril.gradinarov.GRAFIXOFT\Desktop\myFiles\SecondAtempt\Kri4oFy\Kri4oFy
 C:\Users\kiril.gradinarov.GRAFIXOFT\Desktop\myFiles\SecondAtempt\Kri4oFy\Kri4oFy\bin\Debug\Kri4oFy.exe.config
 C:\Users\kiril.gradinarov.GRAFIXOFT\Desktop\myFiles\SecondAtempt\Kri4oFy\Kri4oFy\bin\Debug\Kri4oFy.exe
 C:\Users\kiril.gradinarov.GRAFIXOFT\Desktop\myFiles\SecondAtempt\Kri4oFy\Kri4oFy\bin\Debug\Kri4oFy.pdb
+C:\Users\kiril.gradinarov.GRAFIXOFT\Desktop\myFiles\SecondAtempt\Kri4oFy\Kri4oFy\bin\Debug\SpotiFy.mdf
+C:\Users\kiril.gradinarov.GRAFIXOFT\Desktop\myFiles\SecondAtempt\Kri4oFy\Kri4oFy\bin\Debug\SpotiFy_log.ldf

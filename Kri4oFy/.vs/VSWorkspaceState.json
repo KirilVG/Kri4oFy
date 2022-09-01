@@ -2,10 +2,11 @@
   "ExpandedNodes": [
     "",
     "\\Kri4oFy",
+    "\\Kri4oFy\\bin",
+    "\\Kri4oFy\\bin\\Release",
     "\\Kri4oFy\\Classes",
-    "\\Kri4oFy\\Constants",
-    "\\Kri4oFy\\Interfaces"
+    "\\packages"
   ],
-  "SelectedNode": "\\Kri4oFy\\Interfaces\\IListener.cs",
+  "SelectedNode": "\\Kri4oFy\\bin\\Release",
   "PreviewInSolutionExplorer": false
 }

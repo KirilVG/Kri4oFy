@@ -24,6 +24,8 @@ namespace Kri4oFy.Constants
 
         static public Regex arrNamesReg = new Regex(@"'([\w ]+)'");
 
+        static public Regex changesReg = new Regex(@"\[([\w ]*)\]");
+
         //commands
         public const string exitCommand = "Exit";
         public const string logInCommand = "Log In";
@@ -75,5 +77,19 @@ namespace Kri4oFy.Constants
         public const string successfulyAddedPlaylistMSG = "Successfuly added the playlist";
         public const string successfulyRemovedSongMSG = "Successfuly removed the song";
         public const string successfulyRemovedPlaylistMSG = "Successfuly removed the playlist";
+
+        public const string cngRemoveSongFromFav = "RemoveSongFromFav";
+        public const string cngRemoveSongFromPlayL = "RemoveSongFromPlayL";
+        public const string cngAddSongToPlayL = "AddSongToPlayL";
+        public const string cngAddSongToFav = "AddSongToFav";
+        public const string cngRemovePlaylist = "RemovePlaylist";
+        public const string cngCreatePlaylist = "CreatePlaylist";
+        public const string cngRemoveSongFromAlb = "RemoveSongFromAlb";
+        public const string cngAddSongToAlbum = "AddSongToAlbum";
+        public const string cngRemoveAlb = "RemoveAlb";
+        public const string cngAddAlbum = "AddAlbum";
+
+        public const string datetimePattern = "dd/mm/yyyy";
+        public const string datetimeYearPrefix = "01/01/";
     }
 }
